@@ -1,0 +1,1149 @@
+<!DOCTYPE NoteCase-File>
+<!--LastNote:8-->
+<HTML>
+<HEAD>
+<meta content="text/html;charset=UTF-8" http-equiv="Content-Type">
+<meta name="generator" content="NoteCase 1.9.8">
+<TITLE></TITLE>
+</HEAD>
+<BODY>
+<DL>
+<DT>JavaBasicNote</DT>
+<!--property:date_created=1548744004-->
+<!--property:date_modified=1548744004-->
+<!--property:expanded-->
+<DD>
+<DL>
+<DT>1. Java语言概述</DT>
+<!--property:date_created=1548744081-->
+<!--property:date_modified=1548744152-->
+<DD>
+1.	Java语言概述<BR>
+<BR>
+（1）Java语言特性<BR>
+<BR>
+	①面向对象性 <BR>
+	②健壮性----GC（垃圾回收器）/异常处理机制 <BR>
+	③跨平台性----JVM<BR>
+	<BR>
+（2）运行Java程序<BR>
+<BR>
+①编写---- .java源文件 <BR>
+②编译---- javac 源文件名.java 生成.class字节码文件<BR>
+③运行---- java 源文件名<BR>
+
+</DD>
+<DT>2. 基本语法</DT>
+<!--property:date_created=1548744170-->
+<!--property:date_modified=1548744282-->
+<DD>
+2.	基本语法<BR>
+<BR>
+（1）数据类型<BR>
+<BR>
+	①基本数据类型----byte short int long float double char boolean <BR>
+	②引用类型----数组、类、string、接口等<BR>
+<BR>
+（2）二进制的底层存储：正数、负数都是以补码的形式存储的 <BR>
+<BR>
+	①正数的原码、反码、补码是相同的（符号位为0） <BR>
+	②负数原码转反码----符号位不变，数值位取反；反码转补码----符号位不变，末位＋1 <BR>
+	③补码的补码等于原码<BR>
+<BR>
+（3）short s = 10；s = s + 5	报编译的异常----5默认为int型，s+5默认转为int型，无法赋值给short型的s<BR>
+<BR>
+（4）&amp;&amp;与&amp;、||与|的区别<BR>
+<BR>
+	① &amp;&amp;和||具有短路功能 <BR>
+	② &amp;和|是位运算符，即当运算符两边部位boolean类型的值时，按位进行与和或的计算<BR>
+<BR>
+（5）数组常见异常：下标越界、空指针<BR>
+<BR>
+（6）数组的常用的算法问题：求数组元素的最大值、最小值、和、平均数；数组的复制和反转<BR>
+<BR>
+（7）数组的排序<BR>
+<BR>
+	<span style="color:#ff0000">①插入排序----直接插入排序、折半插入排序、shell排序 <BR>
+	②交换排序----冒泡排序、快速排序 <BR>
+	③选择排序----简单选择排序、堆排序 <BR>
+	④归并排序 <BR>
+	⑤基数排序 <BR>
+	⑥arrays工具类：arrays.sort()</span><BR>
+
+</DD>
+<DT>3. 面向对象</DT>
+<!--property:date_created=1548744311-->
+<!--property:date_modified=1548838135-->
+<DD>
+3.	面向对象<BR>
+<BR>
+（1）类的组成成分<BR>
+<BR>
+	①属性（成员变量，field） <BR>
+	②方法（成员方法，method）<BR>
+	③构造器（构造方法，constructor）<BR>
+	④代码块（block）<BR>
+	⑤内部类（innerclass）<BR>
+<BR>
+（2）成员变量和局部变量<BR>
+<BR>
+	①相同点----声明格式相同<BR>
+		    ----都有各自的作用域<BR>
+	②不同点----成员变量声明在类里，方法外；局部变量声明在方法内，方法的形参部分，代码块内<BR>
+	            ----成员变量的修饰符有4个：public, private, (default), protected；局部变量没有修饰符，与所在方法的修饰符相同<BR>
+		    ----成员变量如果在声明的时候不显示的赋值，不同的数据类型会有不同的初始化值；局部变量一定要显示的赋值（局部变量没有默认初始化值）<BR>
+		    	 byte short int long ==&gt;0<BR>
+           		 float double ==&gt;0.0<BR>
+			 char ==&gt;空格<BR>
+			 boolean ==&gt;false <BR>
+		    <span style="color:#ff0000">----成员变量存在于堆空间中，局部变量存在于栈空间中<BR>
+		</span><BR>
+（3）面向对象编程的思想的落地法则<BR>
+<BR>
+	1）设计类及对象<BR>
+	①设计并创建类及类的成分<BR>
+	②实例化类的对象<BR>
+	③通过“对象.属性”或“对象.方法”的形式完成某项功能<BR>
+	<BR>
+	2）封装性的思想<BR>
+	①将类的属性私有化<BR>
+	②提供公共的方法来实现调用（setter &amp; getter方法）<BR>
+	<BR>
+（4）内存划分结构<BR>
+<BR>
+	①栈（stack）：局部变量、对象的引用名、数组的引用名<BR>
+	②堆（heap）：对象的实体，成员变量（包括字符串常量池）<BR>
+	③方法区：class文件信息和运行时常量池，class文件信息包括类型信息和静态常量池（前者为框架，后者存储内容）<BR>
+		       class文件加载后，静态常量池中的内容被加载到运行时常量池，并将静态常量池中的符号引用变为直接引用，内容可以动态添加<BR>
+		       * JDK1.8以后字符串常量池被放在堆中（此前在运行时常量池中）<BR>
+	④静态域：静态变量<BR>
+<BR>
+（5）方法的重载<BR>
+<BR>
+	①在同一个类中<BR>
+	②方法名必须相同<BR>
+	③方法的参数列表不同（参数个数不同；参数类型不同；参数类型顺序不同）<BR>
+	④方法的返回值是否相同不影响方法是否重载<BR>
+	<BR>
+（6）可变个数形参<BR>
+<BR>
+	①格式：对于方法的形参----数据类型 ... 形参名<BR>
+	②可变个数形参的方法和同名方法之间构成重载<BR>
+	③可变个数形参在调用时，个数从0开始，到无穷多个都可以<BR>
+	④使用可变多个形参的方法与方法的形参使用数组是一致的<BR>
+	⑤若方法中存在可变个数的形参，那么一定要声明在方法形参的最后<BR>
+	⑥在一个方法中，最多声明一个可变个数的形参	<BR>
+<BR>
+（7）参数传递机制：值传递<BR>
+<BR>
+	①形参是基本数据类型的：将实参的值传递给形参的基本数据类型的变量<BR>
+	②形参是引用数据类型的：将实参的引用类型变量的值（对应的堆空间的对象尸体的首地址值）传递给形参					<BR>
+<BR>
+（8）面向对象的特征<BR>
+<BR>
+	①封装与隐藏：不让对象来直接作用属性，而是通过“对象.方法&quot;的形式来控制对象对属性的访问。<BR>
+	②继承性：类与类存在包含关系，避免代码冗余<BR>
+	③多态性----方法的重载与重写<BR>
+		    ----子类对象的多态性（父类对象子类实例化）<BR>
+<BR>
+（9）四种权限修饰符<BR>
+<BR>
+	①四种都可以用来修饰属性、方法、构造器<BR>
+	②只有public、（default）能修饰类<BR>
+	③public        ---- 类内部、同一个包、子类、任何地方<BR>
+	   protected   ---- 类内部、同一个包、子类<BR>
+	   （default） ---- 类内部、同一个包<BR>
+	   private       ---- 类内部<BR>
+<BR>
+（10）构造器<BR>
+<BR>
+	①构造器的作用----创建对象<BR>
+			     ----给对象的属性赋值<BR>
+	②若不显示声明类的构造器，程序会默认提供一个空参的构造器<BR>
+	③一旦显示的声明类的构造器，那么默认的构造器就不再提供<BR>
+	④类的多个构造器之间构成重载<BR>
+	<BR>
+（11）类对象的属性赋值先后顺序<BR>
+<BR>
+	①属性的默认初始化<BR>
+	②属性的显示初始化或代码块初始化<BR>
+	③通过构造器给属性初始化<BR>
+	④通过“对象.方法”给属性赋值<BR>
+	<BR>
+（12）this关键字<BR>
+<BR>
+	①可以用来属性、方法、构造器<BR>
+	②表示当前对象或者当前正在创建的对象（用于构造器、set方法等）<BR>
+	③当形参与成员变量重名时，如果方法内部需要使用成员变量，必须添加this来表明该变量是类成员<BR>
+	④在任意方法内，如果使用当前类的成员变量或成员方法可以使用this，增强程序的阅读性<BR>
+	⑤在构造器中使用“this（形参列表）”显示的调用本类中重载的其他构造器<BR>
+		----要求“this（形参列表）”要声明在构造器的首行<BR>
+		<BR>
+（13）方法的重写<BR>
+<BR>
+	①重载----同一个类、同一个方法名、不同的参数列表<BR>
+	②重写----在继承的基础之上，子类在获取了父类的结构以后，可以对父类中同名的方法进行“重构”<BR>
+		 ----方法的返回值，方法名，形参列表相同<BR>
+		 ----权限修饰符不小于父类的同名方法<BR>
+		 ----子类方法的异常类型不大于父类<BR>
+		 ----两个方法同为静态或非静态<BR>
+<BR>
+（14）super关键字<BR>
+<BR>
+	①可以修饰属性、方法、构造器<BR>
+	②修饰属性方法：在子类的方法、构造器中，通过super.属性或者super.方法的形式，显示的调用父类的属性或方法<BR>
+	③当子类与父类有同名的属性、方法时调用父类中的结构，必须使用super<BR>
+	④通过“super（形参列表）”在子类的构造器中，调用父类的构造器<BR>
+		----任何一个类（除Object类）的构造器的首行，要么显示的调用本来中重载的其他的构造器“this（形参列表）”<BR>
+		     或显示的调用父类中指定的构造器“super（形参列表）”，要么默认调用父类空参的构造器“super（）”<BR>
+		----在设计类时，最好提供一个空参的构造器<BR>
+		<BR>
+（15）多态性<BR>
+<BR>
+	①使用的前提：要有继承关系<BR>
+	②父类对象子类实例化时通过父类的引用指向子类的对象实体，调用方法时，实际执行的时子类重写父类的方法<BR>
+	③父类对象子类实例化时，只能执行父类的结构，子类特有的结构不能调用<BR>
+	④向下转型：使用强转符（）<BR>
+		----强转可能报类型转换异常，转型前先进行判断instanceof<BR>
+<BR>
+（16）Object类<BR>
+<BR>
+	①java.lang.Object类是所有类的根父类<BR>
+	②Object类仅有一个空参构造器<BR>
+	③“==” ----基本数据类性：判断值是否相等<BR>
+		   ----引用数据类型：比较引用类型变量的地址值是否相等<BR>
+	④equals方法----只能处理引用类型变量<BR>
+			  ----Object类中的equals方法仍然是比较两个引用变量的地址值<BR>
+			  ----string类、包装类、file类等以及一些自定义类，希望比较对象的属性值是否相同，重写equals方法<BR>
+	⑤tostring方法在没有被重写时，打印的就是对象所在的类和对象实体在堆空间的位置<BR>
+	<BR>
+（17）包装类<BR>
+<BR>
+	①基本数据类型转为包装类（装箱）----通过包装类构造器：Integer i = new Interger(11)<BR>
+							----自动装箱： int i = 10 ;  Integer i1 = i<BR>
+	②包装类转为基本数据类型（拆箱）----调用包装类的方法：xxxValue<BR>
+							----自动拆箱：Integer i = new Integer(11) ; int j = i<BR>
+	③基本数据类型String类----调用String类重载的valueOf（Xxx xx）<BR>
+					---- + &quot;&quot;<BR>
+	④包装类转为String类----包装类对象的toString方法<BR>
+	⑤String类转为基本数据类型----调用相应包装的parseXxx（String str）<BR>
+					      ----通过包装类构造器<BR>
+	⑥String类转为包装类----通过字符串参数：Float f = new Float(&quot;32.1F&quot;)<BR>
+	<BR>
+（18）static关键字<BR>
+<BR>
+	①指“静态的”，可以用来修饰属性、方法、代码块（初始化块）、内部类<BR>
+	②static修饰属性（类变量）----由类创建的所有对象，公用这一个属性<BR>
+					     ----当其中一个对象对此属性进行更改，会导致其他对象对此属性的一个调用<BR>
+					     ----类变量随着类的加载而加载，独一份<BR>
+					     ----静态的变量可以直接通过“类.类变量”的方式来调用<BR>
+					     ----类变量的加载遭遇对象，所以当有对象以后，可以“对象.类变量&quot;使用，但是”类.实例变量“是不行的<BR>
+					     ----类变量存在于静态域中<BR>
+					<BR>
+	③static修饰方法（静态方法）----随着类的加载而加载，在内存中也是独一份<BR>
+						----可以直接通过“类.类方法”方式调用<BR>
+						----内部可以调用静态的属性或静态的方法，而不能调用非静态的属性或方法<BR>
+						----非静态的方法内部可以调用静态的属性或静态的方法<BR>
+						----this和super调用对象的，因此不能出现在静态方法中<BR>
+						----静态结构的生命周期早于非静态结构，被回收晚于非静态结构<BR>
+<BR>
+（20）代码块<BR>
+<BR>
+	①用来初始化类的属性，只有static修饰符能修饰代码块<BR>
+	②静态代码块----随着类的加载而加载<BR>
+			  ----静态代码块的执行要早于非静态代码块的执行<BR>
+			  ----静态的代码块中只能执行静态的结构（类属性、类方法）<BR>
+	③非静态代码块----可以对类的属性（包括静态的和非静态的）进行初始化操作，同事也可以调用本类声明的方法（包括静态的和非静态的）<BR>
+			     ----每创建一个类的对象，费静态代码块就加载一次<BR>
+			     ----非静态代码块的执行要早于构造器<BR>
+<BR>
+（21）final关键字<BR>
+<BR>
+	①final修饰类：这个类不能被继承<BR>
+	②final修饰方法：这个方法不能被重写<BR>
+	③final修饰属性：这个属性就是一个常量<BR>
+		----常量不能使用默认初始化<BR>
+		----可以通过显示赋值、代码块赋值、构造器赋值<BR>
+	④变量用static final修饰：全局常量<BR>
+	<BR>
+（22）抽象<BR>
+<BR>
+	①abstract修饰类（抽象类）----不可被实例化<BR>
+					      ----抽象类有构造器<BR>
+					      ----抽象方法所在的类一定是抽象类<BR>
+					      ----抽象类中可以没有抽象方法<BR>
+					      ----当设计一个类，不需要创建此类的实例的时候，就可以考虑将其设置为抽象的，由其子类实现这个类的抽象方法以后，进行实例化<BR>
+	②abstr修饰方法（抽象方法）----没有方法体，没有{}<BR>
+						----抽象方法只保留方法的功能，具体的执行交给继承抽象类的子类，由子类重写此抽象方法<BR>
+						----若子类继承抽象类，并重写了所有的抽象方法，则此子类可以被实例化，<span style="color:#ff0000">子类实例化过程中调用了父类的构造器，父类因此也被实例化</span><BR>
+						----若子类继承抽象类，没有重写所有的抽象方法，意味着此类中仍有抽象方法，则此类必须声明为抽象类<BR>
+<BR>
+（23）接口<BR>
+<BR>
+	①接口可以看作是一个特殊的抽象类，是常量与抽象方法的一个集合，不能包含变量、一般的方法<BR>
+	②接口没有构造器<BR>
+	③接口定义的就是一种功能，此功能可以被类所实现<BR>
+	④实现接口的类，必须要重写其中的所有的抽象方法，方可实例化，否则，扔是一个抽象类<BR>
+	⑤类可以实现多个接口（java中类的继承是单继承）<BR>
+	⑥接口与接口之间也是继承的关系，而且可以实现多继承<BR>
+	⑦接口与具体的实现类之间也存在多态性----声明接口类型的变量，调用的方法是实现类中重写的方法<BR>
+<BR>
+（24）内部类<BR>
+<BR>
+	①内部类可以分为成员内部类和局部内部类<BR>
+	②成员内部类----是外部类的一个成员，可以有修饰符，可以调用外部类的属性、方法<BR>
+			  ----可以是抽象的，也可以在其内部定义属性、方法、构造器<BR>
+	③局部内部类----定义在类的方法中的内部类<BR>
+	④需要掌握----<span style="color:#ff0000">如何创建成员内部类的对象</span><BR>
+		       ----<span style="color:#ff0000">如何区分调用外部类、内部类的变量（尤其是变量重名的）</span><BR>
+		       ----<span style="color:#ff0000">局部内部类的使用</span><BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+				
+</DD>
+<DT>4. 异常处理</DT>
+<!--property:date_created=1548838166-->
+<!--property:date_modified=1548838508-->
+<DD>
+1.体系结构<BR>
+   java.lang.Object<BR>
+           |----java.lang.Throwable<BR>
+    			|-------java.lang.Error：错误，java程序对此无能为力，不显式的处理<BR>
+ 			|-------java.lang.Exception:异常。需要进行处理<BR>
+ 				|------RuntimeException:运行时异常：数组下标越界、空指针、类型转换等<BR>
+				|------非RuntimeException:编译时异常：IO<BR>
+<BR>
+2.如何处理异常？<BR>
+   java 中的“抓抛模型”<BR>
+ * 1.&quot;抛&quot;：当我们执行代码时，一旦出现异常，就会在异常的代码处生成一个对应的异常类型的对象，并<BR>
+ *        将此对象抛出。(自动抛出   / 手动抛出)<BR>
+ *        &gt;一旦抛出此异常类的对象，那么程序就终止执行<BR>
+ *        &gt;此异常类的对象抛给方法的调用者。<BR>
+ * 2.&quot;抓&quot;：抓住上一步抛出来的异常类的对象。如何抓？即为异常处理的方式<BR>
+ *    java 提供了两种方式用来处理一个异常类的对象。<BR>
+ *    处理的方式一：<BR>
+ *    try{<BR>
+ *    	//可能出现异常的代码<BR>
+ *    }catch(Exception1 e1){<BR>
+ *    	//处理的方式1<BR>
+ *    }catch(Exception2 e2){<BR>
+ *    	//处理的方式2<BR>
+ *    }finally{<BR>
+ *    	//一定要执行的代码 <BR>
+ *    }<BR>
+ * 注：1.try内声明的变量，类似于局部变量，出了try{}语句，就不能被调用<BR>
+ *    2.finally是可选的。<BR>
+ *    3.catch语句内部是对异常对象的处理：<BR>
+ *        &gt;getMessage();  printStackTrace();<BR>
+ *    4.可以有多个catch语句，try中抛出的异常类对象从上往下去匹配catch中的异常类的类型，一旦满足<BR>
+ *      就执行catch中的代码。执行完，就跳出其后的多条catch语句<BR>
+ *    5.如果异常处理了，那么其后的代码继续执行。<BR>
+ *    6.若catch中多个异常类型是&quot;并列&quot;关系，孰上孰下都可以。<BR>
+ *      若catch中多个异常类型是&quot;包含&quot;关系，须将子类放在父类的上面，进行处理。否则报错！<BR>
+ *    7.finally中存放的是一定会被执行的代码，不管try中、catch中是否仍有异常未被处理，以及是否有return语句。<BR>
+ *    8.try-catch是可以嵌套的。<BR>
+    处理方式二：<BR>
+     在方法的声明处，显式的使用throws + 异常类型<BR>
+     public void method1()  throws Exception1 e1,Exception2 e2{<BR>
+		//可能出现异常（尤其是编译时异常，一定要处理）<BR>
+     }<BR>
+    <BR>
+    public void method2() throws Exception1 e1,Exception2 e2{<BR>
+		method1();<BR>
+    }<BR>
+<BR>
+     public void method3(){<BR>
+	try{<BR>
+		method2();<BR>
+	 }catch(Exception1 e1){<BR>
+		System.out.println(e1.getMessage());    <BR>
+	}catch(Exception2 e2){<BR>
+		System.out.println(e2.getMessage());    <BR>
+	}<BR>
+<BR>
+     }<BR>
+<BR>
+   public static void main(String[] args){<BR>
+	对象1.method3();//不会再出现上述的Exception1和Exception2的异常！<BR>
+   }<BR>
+3.如何手动的抛出一个异常？<BR>
+   在方法的内部，可以使用  throw + 异常类对象，来手动的抛出一个异常！<BR>
+<BR>
+        //比较两个圆的半径的大小。<BR>
+	public int compareTo(Object obj) throws Exception{<BR>
+		if(this == obj){<BR>
+			return 0;<BR>
+		}<BR>
+		else if(obj instanceof Circle){<BR>
+			Circle c = (Circle)obj;<BR>
+			if(this.radius &gt; c.radius){<BR>
+				return 1;<BR>
+			}else if(this.radius == c.radius){<BR>
+				return 0;<BR>
+			}else{<BR>
+				return -1;<BR>
+			}<BR>
+		}else{<BR>
+			//return -2;<BR>
+			//手动的抛出一个异常<BR>
+			throw new MyException(&quot;传入的类型有误！&quot;);<BR>
+		}<BR>
+	}<BR>
+4.如何自定义一个异常类？<BR>
+&gt;手动的抛出一个异常，除了抛出的是现成的异常类的对象之外，还可以抛出一个自定义的异常类的对象！<BR>
+&gt;如何自定义一个异常类呢？<BR>
+//1.自定义的异常类继承现有的异常类<BR>
+//2.提供一个序列号，提供几个重载的构造器<BR>
+public class MyException extends Exception{<BR>
+	<BR>
+	static final long serialVersionUID = -70348975766939L;<BR>
+	<BR>
+	public MyException(){<BR>
+		<BR>
+	}<BR>
+	public MyException(String msg){<BR>
+		super(msg);<BR>
+	}<BR>
+}
+</DD>
+<DT>5. 集合</DT>
+<!--property:date_created=1548838522-->
+<!--property:date_modified=1548838661-->
+<DD>
+1.对象的存储：①数组（基本数据类型  &amp; 引用数据类型）  ②集合（引用数据类型）<BR>
+    &gt;数组存储数据的弊端：长度一旦初始化以后，就不可变；真正给数组元素赋值的个数没有现成的方法可用。<BR>
+2.集合框架<BR>
+Collection接口 ：方法：①<b>add(Object obj)</b>,addAll(Collection coll),<b>size()</b>,clear(),<b>isEmpty()</b>;<BR>
+				 ②<b>remove(Object obj)</b>,removeAll(Collection coll),retainAll(Collection coll),<b>equals(Object obj),contains(Object obj)</b><BR>
+				        containsAll(Collection coll),hashCode()<BR>
+				 ③<b> iterator()</b>,toArray();<BR>
+<b> *     		|------List接口：存储有序的，可以重复的元素.---相当于“动态”数组</b><BR>
+<b>			&gt;新增的方法：删除remove(int index) 修改set(int index,Object obj) 获取get(int index)插入add(int index,Object obj)</b><BR>
+<b>			&gt;添加进List集合中的元素（或对象）所在的类一定要重写equals()方法</b><BR>
+ *     				|------ArrayList（主要的实现类）<BR>
+					|------LinkedList（更适用于频繁的插入、删除操作）<BR>
+					|------Vector（古老的实现类、线程安全的，但效率要低于ArrayList）<BR>
+<b> *     		|------Set接口：存储无序的，不可重复的元素。---相当于高中的“集合”概念</b><BR>
+			&gt;Set使用的方法基本上都是Collection接口下定义的。<BR>
+<b>			&gt;添加进Set集合中的元素所在的类一定要重写equals() 和 hashCode()。要求重写equals() 和 hashCode()方法保持一致。</b><BR>
+			&gt;1.无序性：无序性！= 随机性。真正的无序性，指的是元素在底层存储的位置是无序的。<BR>
+			&gt;2.不可重复性：当向Set中添加进相同的元素的时候，后面的这个不能添加进去。<BR>
+ *     				|------HashSet（主要的实现类）<BR>
+					|------LinkedHashSet(是HashSet的子类，当我们遍历集合元素时，是按照添加进去的顺序实现的；频繁的遍历，较少的添加、插入操作建议选择此)<BR>
+					|------TreeSet（可以按照添加进集合中的元素的指定属性进行排序）<BR>
+<b>						&gt;要求TreeSet添加进的元素必须是同一个类的！</b><BR>
+						&gt;两种排序方式：自然排序：①要求添加进TreeSet中的元素所在的类implements Comparable接口<BR>
+											②重写compareTo(Object obj)，在此方法内指明按照元素的哪个属性进行排序<BR>
+											③向TreeSet中添加元素即可。若不实现此接口，会报运行时异常<BR>
+									 定制排序：①创建一个实现Comparator接口的实现类的对象。在实现类中重写Comparator的compare(Object o1,Object o2)方法<BR>
+											②在此compare()方法中指明按照元素所在类的哪个属性进行排序<BR>
+											③将此实现Comparator接口的实现类的对象作为形参传递给TreeSet的构造器中<BR>
+											④向TreeSet中添加元素即可。若不实现此接口，会报运行时异常<BR>
+<b>						&gt;要求重写的compareTo()或者compare()方法与equals()和hashCode()方法保持一致。</b><BR>
+Map接口：存储“键-值”对的数据 ----相当于高中的“函数y = f(x)” (x1,y1)  (x2,y2)<BR>
+<b>&gt;key是不可重复的，使用Set存放。value可以重复的，使用Collection来存放的。一个key-value对构成一个entry(Map.Entry)，entry使用Set来存放。</b><BR>
+<b>&gt;添加、修改 put(Object key,Object value)  删除remove(Object key)  获取get(Object key) size() / keySet() values()  entrySet()</b><BR>
+ *     		|-----HashMap：主要的实现类，可以添加null键，null值<BR>
+			|-----LinkedHashMap：是HashMap的子类，可以按照添加进Map的顺序实现遍历<BR>
+			|-----TreeMap：需要按照key所在类的指定属性进行排序。要求key是同一个类的对象。对key考虑使用自然排序 或 定制排序<BR>
+			|-----Hashtable：是一个古老的实现类，线程安全的，不可以添加null键，null值不建议使用。<BR>
+				|-----子类：Properties：常用来处理属性文件<BR>
+<BR>
+Iterator接口：用来遍历集合Collection元素<BR>
+<BR>
+Collections工具类：操作Collection及Map的工具类，大部分为static的方法。<BR>
+<BR>
+附：Properties的使用<BR>
+Properties pros = new Properties();<BR>
+		pros.load(new FileInputStream(new File(&quot;jdbc.properties&quot;)));<BR>
+		String user = pros.getProperty(&quot;user&quot;);<BR>
+		System.out.println(user);<BR>
+		String password = pros.getProperty(&quot;password&quot;);<BR>
+		System.out.println(password);				
+</DD>
+<DT>6. 枚举类和注解</DT>
+<!--property:date_created=1548842859-->
+<!--property:date_modified=1548844782-->
+<DD>
+1. 枚举类：类的对象是有限个、确定的<BR>
+<BR>
+（1）自定义枚举类<BR>
+<BR>
+	①私有化类的构造器，保证不能在类的外部创建对象<BR>
+	②在类的内部创建枚举类的实例，声明为public static final<BR>
+	③若类有属性，那么声明为private final，此属性在构造器中赋值<BR>
+	<BR>
+（2）使用enum关键字定义枚举类<BR>
+<BR>
+	枚举类如何实现接口----1. 让类实现此接口，类的对象共享同一套接口的抽象方法的实现<BR>
+				   ----2. 让类的每一个对象都去实现接口的抽象方法，进而通过类的对象调用被重写的方法<BR>
+				<BR>
+2. 注解Anootation<BR>
+<BR>
+（1）JDK提供的常用的三个注释<BR>
+	<BR>
+	①@Override：限定重写父类方法，该注释只能用于方法<BR>
+	②Deprecated：用于表示某个程序元素（类、方法等）已过时<BR>
+	③SuppressWarnings：抑制编译器警告<BR>
+	<BR>
+（2）元注解：注解的注解<BR>
+<BR>
+	①Retention----SOURCE：被编译器忽略<BR>
+			 ----CLASS：注解将会被保留在Class文件中，但在运行时并不会被VM保留。这是默认的。<BR>
+			 ----RUNTIME：保留至运行时，可通过反射获取注解信息<BR>
+	②Target：定义注解的作用目标<BR>
+	③Documented：说明该注解将被包含在javadoc中<BR>
+	④Inherited：说明子类可以继承父类中的该注解
+</DD>
+<DT>7. IO流</DT>
+<!--property:date_created=1548844789-->
+<!--property:date_modified=1548862331-->
+<DD>
+1.java.io包下<BR>
+File类：java程序中的此类的一个对象，就对应着硬盘中的一个文件或网络中的一个资源。<BR>
+File file1 = new File(&quot;d:\\io\\helloworld.txt&quot;);<BR>
+File file2 = new File(&quot;d:\\io\\io1&quot;);<BR>
+&gt;1.File既可以表示一个文件（.doc  .xls   .mp3  .avi   .jpg  .dat），也可以表示一个文件目录！<BR>
+&gt;2.File类的对象是与平台无关的。<BR>
+&gt;3.File类针对于文件或文件目录，只能进行新建、删除、重命名、上层目录等等的操作。如果涉及到访问文件的内容，File<BR>
+是无能为力的，只能使用IO流下提供的相应的输入输出流来实现。<BR>
+&gt;4.常把File类的对象作为形参传递给相应的输入输出流的构造器中！<BR>
+<BR>
+<span style="color:#ff0000">2.实例代码</span><BR>
+<BR>
+	//使用缓冲流实现文件的复制的方法<BR>
+	public void copyFile(String src,String dest){<BR>
+		BufferedInputStream bis = null;<BR>
+		BufferedOutputStream bos = null;<BR>
+		try {<BR>
+			//1.提供读入、写出的文件<BR>
+			File file1 = new File(src);<BR>
+			File file2 = new File(dest);<BR>
+			//2.想创建相应的节点流：FileInputStream、FileOutputStream<BR>
+			FileInputStream fis = new FileInputStream(file1);<BR>
+			FileOutputStream fos = new FileOutputStream(file2);<BR>
+			//3.将创建的节点流的对象作为形参传递给缓冲流的构造器中<BR>
+			bis = new BufferedInputStream(fis);<BR>
+			bos = new BufferedOutputStream(fos);<BR>
+			//4.具体的实现文件复制的操作<BR>
+			byte[] b = new byte[1024];<BR>
+			int len;<BR>
+			while((len = bis.read(b)) != -1){<BR>
+				bos.write(b, 0, len);<BR>
+				bos.flush();<BR>
+			}<BR>
+		}catch (IOException e) {<BR>
+			// TODO Auto-generated catch block<BR>
+			e.printStackTrace();<BR>
+		}finally{<BR>
+			//5.关闭相应的流<BR>
+			if(bos != null){<BR>
+				try {<BR>
+					bos.close();<BR>
+				} catch (IOException e) {<BR>
+					// TODO Auto-generated catch block<BR>
+					e.printStackTrace();<BR>
+				}<BR>
+				<BR>
+			}<BR>
+			if(bis != null){<BR>
+				try {<BR>
+					bis.close();<BR>
+				} catch (IOException e) {<BR>
+					// TODO Auto-generated catch block<BR>
+					e.printStackTrace();<BR>
+				}<BR>
+				<BR>
+			}<BR>
+			<BR>
+		}<BR>
+	}<BR>
+<BR>
+3.IO流的划分<BR>
+  1) 按照流的流向的不同：输入流   输出流  (站位于程序的角度)<BR>
+  2) 按照流中的数据单位的不同：字节流   字符流  （纯文本文件使用字符流 ，除此之外使用字节流）<BR>
+  3) 按照流的角色的不同：节点流   处理流   （流直接作用于文件上是节点流（4个），除此之外都是处理流）<BR>
+<BR>
+<span style="color:#ff0000">4.重点掌握</span><BR>
+<span style="background-color:#ffff00"> * 抽象基类			节点流（文件流）                              		  缓冲流（处理流的一种,可以提升文件操作的效率）<BR>
+ * InputStream			FileInputStream （int read(byte[] b)）			BufferedInputStream  (int read(byte[] b))<BR>
+ * OutputStream		FileOutputStream (void write(b,0,len))			BufferedOutputStream  (flush())  (void write(b,0,len))<BR>
+ * Reader			        FileReader (int read(char[] c))				BufferedReader  (readLine())  (int read(char[] c))或String readLine()<BR>
+ * Writer				FileWriter (void write(c,0,len))				BufferedWriter  (flush()) (void write(c,0,len)或void write(String str))</span><BR>
+注： 1.从硬盘中读入一个文件，要求此文件一定得存在。若不存在，报FileNotFoundException的异常<BR>
+       2.从程序中输出一个文件到硬盘，此文件可以不存在。若不存在，就创建一个实现输出。若存在，则将已存在的文件覆盖<BR>
+       3.真正开发时，就使用缓冲流来代替节点流<BR>
+       4.主要最后要关闭相应的流。先关闭输出流，再关闭输入流。将此操作放入finally<BR>
+<BR>
+5.其它的流<BR>
+  1.转换流：实现字节流与字符流之间的转换<BR>
+     InputStreamReader:输入时，实现字节流到字符流的转换，提高操作的效率（前提是，数据是文本文件）   ===&gt;解码：字节数组---&gt;字符串<BR>
+     OutputStreamWriter：输出时，实现字符流到字节流的转换。 ===&gt;编码：  字符串----&gt;字节数组<BR>
+   例子：从键盘输入字符串，要求将读取到的整行字符串转成大写输出。然后继续进行输入操作，直至当输入“e”或者“exit”时，退出程序。<BR>
+<BR>
+  2.标准的输入输出流<BR>
+    System.in: The &quot;standard&quot; input stream:从键盘输入数据<BR>
+    System.out:The &quot;standard&quot; output stream：从显示器输出数据<BR>
+<BR>
+   3.打印流 (都是输出流)  PrintStream(处理字节)  PrintWriter(处理字符) <BR>
+	可以使用System.setOut（PrintStream p）重新设置一下输出的位置。  <BR>
+	PrintStream p = new PrintStream(new FileOutputStream(&quot;hello.txt&quot;),true);<BR>
+   4.数据流（处理基本数据类型、String类、字节数组）<BR>
+	DataInputStream  DataOutputStream<BR>
+   5.对象流(用来处理对象的)<BR>
+     &gt;对象的序列化机制：允许把内存中的Java对象转换成平台无关的二进制流，从而允许把这种二进制流持久地保存在磁盘上，<BR>
+        或通过网络将这种二进制流传输到另一个网络节点。当其它程序获取了这种二进制流，就可以恢复成原来的Java对象<BR>
+     ObjectInputStream（Object readObject();）   ObjectOutputStream  (void writeObject(Object obj))<BR>
+     如何创建流的对象：ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(&quot;person.txt&quot;)));<BR>
+				  ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(&quot;person.txt&quot;)));<BR>
+			<BR>
+     实现序列化机制的对象对应的类的要求：①要求类要实现Serializable接口②同样要求类的所有属性也必须实现Serializable接口<BR>
+    							       ③ 要求给类提供一个序列版本号：private static final long serialVersionUID;<BR>
+							       ④属性声明为static 或transient的，不可以实现序列化<BR>
+<BR>
+   6.随机存取文件流:RandomAccessFile<BR>
+      6.1既可以充当一个输入流，又可以充当一个输出流：public RandomAccessFile(File file, String mode) <BR>
+      6.2支持从文件的开头读取、写入。若输出的文件不存在，直接创建。若存在，则是对原有文件内容的覆盖。<BR>
+      6.3 支持任意位置的“插入”。<BR>
+<BR>
+<BR>
+
+</DD>
+<DT>8. 多线程</DT>
+<!--property:date_created=1548854526-->
+<!--property:date_modified=1552357650-->
+<DD>
+1. 创建Java程序的线程<BR>
+<BR>
+	①继承于Thread类<BR>
+	class PrintNum extends Thread{<BR>
+		public void run(){<BR>
+			//子线程执行的代码<BR>
+			for(int i = 1;i &lt;= 100;i++){<BR>
+				if(i % 2 == 0){<BR>
+					System.out.println(Thread.currentThread().getName() + &quot;:&quot; + i);<BR>
+				}<BR>
+			}<BR>
+		}<BR>
+		public PrintNum(String name){<BR>
+			super(name);<BR>
+		}<BR>
+	}<BR>
+<BR>
+<BR>
+	public class TestThread {<BR>
+		public static void main(String[] args) {<BR>
+			PrintNum p1 = new PrintNum(&quot;线程1&quot;);<BR>
+			PrintNum p2 = new PrintNum(&quot;线程2&quot;);<BR>
+			p1.setPriority(Thread.MAX_PRIORITY);//10<BR>
+			p2.setPriority(Thread.MIN_PRIORITY);//1<BR>
+			p1.start();<BR>
+			p2.start();<BR>
+		}<BR>
+	}<BR>
+	②实现Runnable接口<BR>
+	class SubThread implements Runnable{<BR>
+		public void run(){<BR>
+			//子线程执行的代码<BR>
+			for(int i = 1;i &lt;= 100;i++){<BR>
+				if(i % 2 == 0){<BR>
+					System.out.println(Thread.currentThread().getName() + &quot;:&quot; + i);<BR>
+				}<BR>
+			}			<BR>
+		}<BR>
+	}<BR>
+	public class TestThread{<BR>
+		public static void main(String[] args){<BR>
+			SubThread s = new SubThread();<BR>
+			Thread t1 = new Thread(s);<BR>
+			Thread t2 = new Thread(s);<BR>
+		<BR>
+			t1.setName(&quot;线程1&quot;);<BR>
+			t2.setName(&quot;线程2&quot;);<BR>
+		<BR>
+			t1.start();<BR>
+			t2.start();<BR>
+		}<BR>
+	}<BR>
+<BR>
+	哪种方式好----实现的方式较好：解决了单继承的局限性；如果多个线程有共享数据的话，应该使用实现的方式，共享数据所在的类应作为Runnable的实现类<BR>
+<BR>
+	线程的常用方法：start()   run()  currentThread()  getName()  setName(String name) yield() join()  sleep() isAlive() getPriority()  setPriority(int i)； wait()  notify() notifyAll(）<BR>
+<BR>
+2. 线程的生命周期<BR>
+<BR>
+					①新建<BR>
+					    ↓	start()<BR>
+					②就绪----------------------------------------↑	sleep()时间到 获取同步锁 notify()/notifyAll()/resume()<BR>
+	失去CPU执行权、yield()  ↑↓	获得CPU执行权				④阻塞<BR>
+					③运行________________________________________↑	sleep()等待同步锁 wait()/join()/suspend()<BR>
+					    ↓	正常执行完run() Error/Exception未处理 stop()<BR>
+					⑤死亡<BR>
+					<BR>
+3. 线程的同步机制<BR>
+<BR>
+	①前提：创建的多个线程存在共享数据，当其中一个线程操作共享数据时，还未操作完成，其他线程就参与进来，导致线程安全问题<BR>
+	②解决方式：要求一个线程操作共享数据时，只有当其完成操作完成共享数据，其他线程才有机会执行共享数据<BR>
+	③方式一----同步代码块<BR>
+		synchronized(同步监视器){<BR>
+			//操作共享数据的代码<BR>
+		}<BR>
+		注：1.同步监视器：俗称锁，任何一个类的对象都可以才充当锁。要想保证线程的安全，必须要求所有的线程共用同一把锁！<BR>
+		      2.使用实现Runnable接口的方式创建多线程的话，同步代码块中的锁，可以考虑是this。如果使用继承Thread类的方式，慎用this!<BR>
+		      3.共享数据：多个线程需要共同操作的变量。   明确哪部分是操作共享数据的代码。<BR>
+	④方式二----同步方法：将操作共享数据的方法声明为synchronized<BR>
+		注：1.对于非静态的方法而言，使用同步的话，默认锁为：this。如果使用在继承的方式实现多线程的话，慎用！<BR>
+		      2.对于静态的方法，如果使用同步，默认的锁为：当前类本身。以单例的懒汉式为例。 Class clazz = Singleton.class<BR>
+<BR>
+	⑤死锁：不同的线程分别占用对方需要的同步资源不放弃<BR>
+<BR>
+4.线程的通信：如下的三个方法必须使用在同步代码块或同步方法中<BR>
+wait()：在同步中执行到此方法，此线程等待直至其他线程执行notify()方法，将其唤醒，唤醒后继续其wait()后的代码<BR>
+notify()/notifyAll()：在同步中执行到此方法，则唤醒其他的某一个或所有的被wait()的线程<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+	
+</DD>
+<DT>9. 反射</DT>
+<!--property:date_created=1548854535-->
+<!--property:date_modified=1548864071-->
+<DD>
+1.如何创建Class的实例(重点)<BR>
+<BR>
+   	1.1过程：源文件经过编译(javac.exe)以后，得到一个或多个.class文件。.class文件经过运行(java.exe)这步，<BR>
+	就需要进行类的加载（通过JVM的类的加载器），记载到内存中的缓存。每一个放入缓存中的.class文件就是一个Class的实例！<BR>
+	<BR>
+	1.2 Class的一个对象，对应着一个运行时类。相当于一个运行时类本身充当了Class的一个实例。<BR>
+	<BR>
+	1.3 java.lang.Class是反射的源头。  接下来涉及到反射的类都在java.lang.reflect子包下。如：Field  Method Constructor  Type Package..<BR>
+		当通过Class的实例调用getMethods() ---&gt;Method , getConstructors() ----&gt;Constructor<BR>
+		<BR>
+        1.4实例化Class的方法(三种):<BR>
+<BR>
+		// 1.调用运行时类的.class属性<BR>
+		Class clazz1 = Person.class;<BR>
+		System.out.println(clazz1);<BR>
+		Class clazz2 = Creator.class;<BR>
+		System.out.println(clazz2);<BR>
+		<BR>
+		// 2.通过运行时类的对象，调用其getClass()方法<BR>
+		Person p = new Person();<BR>
+		Class clazz3 = p.getClass();<BR>
+		System.out.println(clazz3);<BR>
+		<BR>
+		// 3.调用Class的静态方法forName(String className)。此方法报ClassNotFoundException<BR>
+		String className = &quot;com.atguigu.java.Person&quot;;<BR>
+		Class clazz4 = Class.forName(className);<BR>
+		System.out.println(clazz4);<BR>
+<BR>
+2.有了Class实例以后，可以做什么？应用一：<span style="color:#ff0000">可以创建对应的运行时类的对象(重点)</span><BR>
+<BR>
+	使用newInstance()，实际上就是使用了类的空参构造器（足够的权限修饰符）<BR>
+	<BR>
+	//获取运行时类的对象：方法一<BR>
+	@Test<BR>
+	public void test1() throws Exception{<BR>
+		Class clazz = Class.forName(&quot;com.atguigu.review.Animal&quot;);<BR>
+<span style="background-color:#ffffff">		</span><span style="background-color:#ffff00">Object obj = clazz.newInstance();</span><span style="background-color:#ffffff"><BR>
+		</span><span style="background-color:#ffff00">Animal a = (Animal)obj;</span><BR>
+		System.out.println(a);<BR>
+	}<BR>
+	//调用指定的构造器创建运行时类的对象<BR>
+	@Test<BR>
+	public void test2() throws Exception{<BR>
+		Class clazz = Animal.class;<BR>
+		<span style="background-color:#ffff00">Constructor cons = clazz.getDeclaredConstructor(String.class,int.class);</span><BR>
+		<span style="background-color:#ffff00">cons.setAccessible(true);</span><BR>
+		<span style="background-color:#ffff00">Animal a = (Animal)cons.newInstance(&quot;Tom&quot;,10);</span><BR>
+		System.out.println(a);<BR>
+	}<BR>
+<BR>
+3.有了Class实例以后，可以做什么？应用二：<span style="color:#ff0000">获取对应的运行时类的完整的类的结构：属性、方法、构造器、包、父类、接口、泛型、注解、异常、内部类。。。</span><BR>
+如：Method[] m1 = clazz.getMethods() :获取到对应的运行时类中声明的权限为public的方法（包含其父类中的声明的public）<BR>
+      Method[] m2 = clazz.getDeclaredMethods()：获取到对应的运行时类中声明的所有的方法（①任何权限修饰符修饰的都能获取②不含父类中的）<BR>
+<BR>
+4.有了Class实例以后，可以做什么？应用三：<span style="color:#ff0000">调用对应的运行时类中指定的结构（某个指定的属性、方法、构造器）(重点)</span><BR>
+//调用指定属性<BR>
+@Test<BR>
+public void test3() throws Exception{<BR>
+	Class clazz = Class.forName(&quot;com.atguigu.review.Animal&quot;);<BR>
+	Object obj = clazz.newInstance();<BR>
+	Animal a = (Animal)obj;<BR>
+	//调用非public的属性<BR>
+	Field f1 = clazz.getDeclaredField(&quot;name&quot;);<BR>
+	f1.setAccessible(true);<BR>
+	f1.set(a, &quot;Jerry&quot;);<BR>
+	//调用public的属性<BR>
+	Field f2 = clazz.getField(&quot;age&quot;);<BR>
+	f2.set(a, 9);<BR>
+	System.out.println(f2.get(a));<BR>
+	System.out.println(a);<BR>
+	//调用static的属性<BR>
+	Field f3 = clazz.getDeclaredField(&quot;desc&quot;);<BR>
+	System.out.println(f3.get(null));<BR>
+}<BR>
+<BR>
+//调用指定的方法<BR>
+@Test<BR>
+public void test4() throws Exception{<BR>
+	Class clazz = Class.forName(&quot;com.atguigu.review.Animal&quot;);<BR>
+	Object obj = clazz.newInstance();<BR>
+	Animal a = (Animal)obj;<BR>
+	<BR>
+	//调用非public的方法<BR>
+	Method m1 = clazz.getDeclaredMethod(&quot;getAge&quot;);<BR>
+	m1.setAccessible(true);<BR>
+	int age = (Integer)m1.invoke(a);<BR>
+	System.out.println(age);<BR>
+	//调用public的方法<BR>
+	Method m2 = clazz.getMethod(&quot;show&quot;, String.class);<BR>
+	Object returnVal = m2.invoke(a,&quot;金毛&quot;);<BR>
+	System.out.println(returnVal);<BR>
+	//调用static的方法<BR>
+	Method m3 = clazz.getDeclaredMethod(&quot;info&quot;);<BR>
+	m3.setAccessible(true);<BR>
+//		m3.invoke(Animal.class);<BR>
+	m3.invoke(null);<BR>
+	<BR>
+}<BR>
+<BR>
+5.动态代理---反射的应用。体会反射的动态性<BR>
+代理设计模式的原理: <BR>
+     使用一个代理将对象包装起来, 然后用该代理对象取代原始对象. 任何对原始对象的调用都要通过代理. 代理对象决定是否以及何时<BR>
+将方法调用转到原始对象上<BR>
+<BR>
+静态代理：要求被代理类和代理类同时实现相应的一套接口；通过代理类的对象调用重写接口的方法时，实际上执行的是被代理类的同样的<BR>
+方法的调用。<BR>
+<BR>
+动态代理：在程序运行时，根据被代理类及其实现的接口，动态的创建一个代理类。当调用代理类的实现的抽象方法时，就发起对被代理类同样<BR>
+方法的调用。<BR>
+涉及到的技术点：①提供一个实现了InvocationHandler接口实现类，并重写其invoke()方法<BR>
+			  ②Proxy.newProxyInstance(obj.getClass().getClassLoader(),obj.getClass().getInterfaces(),h);<BR>
+			//注：obj：被代理类对象 ； h:实现了InvocationHandler接口的实现类的对象<BR>
+<BR>
+例子见：day19-com.atguigu.java1.TestProxy.java例子<BR>
+<BR>
+动态代理与AOP（面向切面编程）<BR>
+
+</DD>
+<DT>10. 网络编程</DT>
+<!--property:date_created=1548854562-->
+<!--property:date_modified=1548864778-->
+<DD>
+1. Java如何实现网络同喜<BR>
+<BR>
+	①使用IP地址----定位一台主机<BR>
+	②使用端口号----定位一个应用<BR>
+	③使用InetAddress类创建一个对象：getByName(&quot;&quot;)<BR>
+		----域名：getHostName()<BR>
+		----ip：getHostAddress()<BR>
+<BR>
+2. 网络通信协议<BR>
+<BR>
+	①OSI参考模型：应用层、表示层、会话层、传输层、网络层、数据链路层、物理层<BR>
+	②TCP/IP参考模型：应用层(http, ftp, DNS, ...)、传输层(TCP, UDP, ...)、网络层(IP, ICMP, ARP, ...)、物理+数据链路层(Link)<BR>
+	<BR>
+3. 传输层：TCP/UDP<BR>
+<BR>
+	①TCP----使用TCP之前，需要先建立TCP连接，形成传输数据通道<BR>
+		----传输前，采用三次握手的方式，是可靠的<BR>
+		----TCP协议通信的两个应用进程：客户端、服务端<BR>
+		----在连接中可进行大数据量传输<BR>
+		----传输完毕，需要释放已建立的连接，效率低<BR>
+	②UDP----将数据、源、目的封装成数据包，不需要建立连接<BR>
+		 ----每个数据报的大小限制在64k以内<BR>
+		 ----无须连接，故不可靠<BR>
+		 ----发送数据结束时无需释放资源，速度快<BR>
+<BR>
+4. 	TCP编程----Socket	ServerSocket<BR>
+	UDP编程----DatagramSocket	DatagramPacket<BR>
+	URL编程----统一资源定位符；一个URL对象，对应着互联网上的一个资源<BR>
+<BR>
+
+</DD>
+<DT>11. 设计模式</DT>
+<!--property:date_created=1548831116-->
+<!--property:date_modified=1548837576-->
+<DD>
+设计模式共有23种<BR>
+<BR>
+1. 单例模式<BR>
+<BR>
+	解决的问题：如何只让设计的类只能创建一个对象<BR>
+	<BR>
+	实现方式：饿汉式  &amp;  懒汉式<BR>
+	<BR>
+	饿汉式<BR>
+	class Bank{<BR>
+		<span style="color:#ff0000">//1.私有化构造器</span><BR>
+		private Bank(){}<BR>
+		<span style="color:#ff0000">//2.创建类的对象，同时设置为private的，通过公共的来调用，体现封装性<BR>
+		//4.要求此对象也为static的</span><BR>
+		private static Bank instance = new Bank();<BR>
+		<span style="color:#ff0000">//3.此公共的方法，必须为static</span> <BR>
+		public static Bank getInstance(){<BR>
+			return instance;	<BR>
+		}<BR>
+	}<BR>
+	<BR>
+	懒汉式<BR>
+	class Bank{<BR>
+		private Bank(){}<BR>
+	<BR>
+		private static Bank instance = null;<BR>
+	<BR>
+		public static Bank getInstance(){<BR>
+			if(instance == null){<span style="color:#ff0000">//可能存在线程安全问题的！</span><BR>
+				instance = new Bank();		<BR>
+			}	<BR>
+			return instance;<BR>
+		}<BR>
+	}<BR>
+	<BR>
+2. 模板方法设计模式<BR>
+<BR>
+	定义：定义操作中算法的骨架，而将一些步骤延迟到子类中，模板方法使得子类可以不改变算法的结构即可重新定义该算法的某些特定步骤<BR>
+	<BR>
+	实现方法----1. 创建一个抽象类<BR>
+		    ----2. 创建一个类继承这个抽象类，并重写所有抽象方法（具体算法）<BR>
+		    ----3. 创建子类对象，调用抽象类中的非抽象方法（算法骨架）<BR>
+	<BR>
+	实例<BR>
+	public class TestTemplate {<BR>
+		public static void main(String[] args) {<BR>
+			new SubTemplate().spendTime();<BR>
+		}<BR>
+	}<BR>
+<BR>
+	abstract class Template {<BR>
+<BR>
+		public abstract void code();<BR>
+<BR>
+		public void spendTime() {<BR>
+			long start = System.currentTimeMillis();<BR>
+<BR>
+			this.code();<BR>
+<BR>
+			long end = System.currentTimeMillis();<BR>
+			System.out.println(&quot;花费的时间为：&quot; + (end - start));<BR>
+		}<BR>
+	}<BR>
+<BR>
+	class SubTemplate extends Template {<BR>
+	<BR>
+		public void code() {<BR>
+			boolean flag = false;<BR>
+			for(int i = 2;i &lt;= 10000;i++){<BR>
+				for(int j = 2;j &lt;= Math.sqrt(i);j++){<BR>
+					if(i % j == 0){<BR>
+						flag = true;<BR>
+						break;<BR>
+					}<BR>
+				}<BR>
+				if(!flag){<BR>
+					System.out.println(i);<BR>
+				}<BR>
+				flag = false;<BR>
+			}<BR>
+		}<BR>
+	}<BR>
+<BR>
+3. 工厂方法设计模式<BR>
+<BR>
+	定义：定义一个用于创建对象的接口，让子类决定实例化哪一个类。工厂方法使一个类的实例化延迟到子类<BR>
+<BR>
+	参与者----抽象产品角色：定义产品的接口<BR>
+		 ----具体产品角色：实现产品接口的具体产品类<BR>
+		 ----抽象工厂角色：声明工厂方法，返回一个产品<BR>
+		 ----真实的工厂：实现工厂方法，由客户调用，返回一个产品实例	<BR>
+<BR>
+	实现方法----1. 创建一个抽象工厂（工厂接口），声明一个返回抽象产品（产品接口）的工厂方法<BR>
+		    ----2. 创建抽象工厂的实现类（实现工厂接口），重写工厂方法（一个实现类返回一种特定的产品）<BR>
+		    ----3. 创建一个抽象产品（产品接口）<BR>
+		    ----4. 创建抽象产品的实现类（实现产品接口）<BR>
+		    ----5. 抽象工厂对象的实现类实例化，调用工厂方法可以得到对应实现类的产品<BR>
+	实例<BR>
+<BR>
+	public class TestFactoryMethod {<BR>
+		public static void main(String[] args) {<BR>
+			IWorkFactory i = new StudentWorkFactory();<BR>
+			i.getWork().doWork();<BR>
+		<BR>
+			IWorkFactory i1 = new TeacherWorkFactory();<BR>
+			i1.getWork().doWork();<BR>
+		}<BR>
+	}<BR>
+<BR>
+	interface IWorkFactory{<BR>
+		Work getWork();<BR>
+	}<BR>
+	class StudentWorkFactory implements IWorkFactory{<BR>
+<BR>
+		@Override<BR>
+		public Work getWork() {<BR>
+			return new StudentWork();<BR>
+		}<BR>
+	<BR>
+	}<BR>
+	class TeacherWorkFactory implements IWorkFactory{<BR>
+<BR>
+		@Override<BR>
+		public Work getWork() {<BR>
+			return new TeacherWork();<BR>
+		}<BR>
+	<BR>
+	}<BR>
+<BR>
+	interface Work{<BR>
+		void doWork();<BR>
+	}<BR>
+<BR>
+	class StudentWork implements Work{<BR>
+<BR>
+		@Override<BR>
+		public void doWork() {<BR>
+			System.out.println(&quot;学生写作业&quot;);<BR>
+		}<BR>
+	<BR>
+	}<BR>
+	class TeacherWork implements Work{<BR>
+<BR>
+		@Override<BR>
+		public void doWork() {<BR>
+			System.out.println(&quot;老师批改作业&quot;);<BR>
+		}<BR>
+	<BR>
+	}<BR>
+<BR>
+4. 代理模式<BR>
+<BR>
+	定义：代理模式给某一个对象提供一个代理对象， 并由代理对象控制原对象的引用。<BR>
+<BR>
+	为什么要用代理模式----中介隔离作用：某些情况下，一个客户类不想或者不能直接引用一个委托对象<BR>
+				   ----开闭原则：通过给代理类增加额外的功能来扩展委托类的功能。<BR>
+				<BR>
+	静态代理的实现方式----1. 创建一个接口，声明抽象方法<BR>
+				   ----2. 创建一个代理类实现这个接口，声明一个接口的对象，代理类构造器中对该对象进行被代理类的实例化，重写接口的抽象方法<BR>
+				   ----3. 创建一个被代理类实现这个接口，重写接口的抽象方法<BR>
+				   ----4. 创建一个接口对象，用代理类实例化，调用这个接口的方法<BR>
+				<BR>
+	静态代理<BR>
+	public class TestProxy {<BR>
+		public static void main(String[] args) {<BR>
+			Object obj = new ProxyObject();<BR>
+			obj.action();<BR>
+		}<BR>
+	}<BR>
+<BR>
+	interface Object{<BR>
+		void action();<BR>
+	}<BR>
+	//代理类<BR>
+	class ProxyObject implements Object{<BR>
+		Object obj;<BR>
+	<BR>
+		public ProxyObject(){<BR>
+			System.out.println(&quot;代理类创建成功&quot;);<BR>
+			obj = new ObjctImpl();<BR>
+		}<BR>
+	<BR>
+		public void action(){<BR>
+			System.out.println(&quot;代理类开始执行&quot;);<BR>
+			obj.action();<BR>
+			System.out.println(&quot;代理类执行结束&quot;);<BR>
+		}<BR>
+	}<BR>
+	//被代理类<BR>
+	class ObjctImpl implements Object{<BR>
+<BR>
+		@Override<BR>
+		public void action() {<BR>
+			System.out.println(&quot;=====被代理类开始执行======&quot;);<BR>
+			System.out.println(&quot;=====具体的操作======&quot;);<BR>
+			System.out.println(&quot;=====被代理类执行完毕======&quot;);<BR>
+		<BR>
+		}<BR>
+	<BR>
+	}<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+						
+</DD>
+</DL>
+
+</DD>
+</DL>
+</BODY>
+</HTML>
