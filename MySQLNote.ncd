@@ -1,0 +1,579 @@
+<!DOCTYPE NoteCase-File>
+<!--LastNote:3-->
+<HTML>
+<HEAD>
+<meta content="text/html;charset=UTF-8" http-equiv="Content-Type">
+<meta name="generator" content="NoteCase 1.9.8">
+<TITLE></TITLE>
+</HEAD>
+<BODY>
+<DL>
+<DT>MySQLnote</DT>
+<!--property:date_created=1548906407-->
+<!--property:date_modified=1548906407-->
+<!--property:expanded-->
+<DD>
+<DL>
+<DT>1. 数据定义语言DDL</DT>
+<!--property:date_created=1548906546-->
+<!--property:date_modified=1548908021-->
+<DD>
+1. 对象：数据库和表<BR>
+<BR>
+2. 关键词：create alter drop truncate<BR>
+<BR>
+3. 创建数据库----create database school<BR>
+    删除数据库----drop database school<BR>
+    切换数据库----use database school<BR>
+    查看数据库里存在的表----show tables<BR>
+<BR>
+4. 创建表----create table student(<BR>
+		  id int(4) primary key auto_increment, <BR>
+		  name varchar(20),<BR>
+		  score int(3)<BR>
+		  );<BR>
+    修改表----alter table student rename (to) teacher	//表的重命名<BR>
+	     ----alter table student add password varchar(20)	//添加新字段<BR>
+	     ----alter table student change password pwd varchar(20)	//重命名字段<BR>
+	     ----alter table student modify pwd int	//修改字段类型<BR>
+	     ----alter table student drop pwd	//删除字段<BR>
+	<BR>
+    键----alter table 表名 add constraint 外键名 foreign key (外键字段名) references 外表表明 (对应表的字段名)	//为已经添加好的数据表添加外键<BR>
+       ----alter table 表名 drop foreign key 外键名	//删除外键<BR>
+       ----alter table 表名 add primary key (字段名, ...)	//添加主键<BR>
+<BR>
+    删除表----drop table 表名<BR>
+<BR>
+    查看生成表的sql语句----show create table 表名<BR>
+<BR>
+    查看表结构----desc 表名 <BR>
+		
+</DD>
+<DT>2. 数据操作语言DML</DT>
+<!--property:date_created=1548906556-->
+<!--property:date_modified=1548908464-->
+<DD>
+1. 对象：记录（行）<BR>
+<BR>
+2. 关键词：insert update delete<BR>
+<BR>
+3. 插入----insert into student values(value1, value2, value3, ...)	//插入所有字段<BR>
+	 ----insert into student(field1, field2, ...) values(value1, value2, ...)	//插入指定字段<BR>
+	<BR>
+   更新----update student set field1='value1', field2='value2' where field3='value3'<BR>
+<BR>
+   删除----delete from field where field1='value1'<BR>
+<BR>
+	注----开发中很少使用delete，删除包括物理删除和逻辑删除（即添加一个字段isDel）<BR>
+	   ----truncate时删除表，在重新创建这个表，属于DDL；delete是一条一条删除表中的数据，属于DML
+</DD>
+<DT>3. 数据查询语言DQL</DT>
+<!--property:date_created=1548906563-->
+<!--property:date_modified=1549178190-->
+<DD>
+1. 语法<BR>
+<BR>
+	select 字段名(*) from 表名 where 条件 group by 分组字段 having 条件 order by 排序字段<BR>
+	<BR>
+2. 执行顺序<BR>
+<BR>
+	from -&gt; where -&gt; group by -&gt; having -&gt; order by -&gt; select<BR>
+	<BR>
+3. group by用法<BR>
+<BR>
+	----group by 经常和聚合函数一起使用(avg(), count(), ...)，经常先使用group by关键字进行分组，然后在进行集合运算<BR>
+	----group by 和 having 一起使用，可以限制输出结果，只有满足条件表达式的结果才会显示<BR>
+<BR>
+4. having和where的区别<BR>
+<BR>
+	where作用于表或者视图，是表和视图的查询条件；having作用于分组后的记录，用于选择满足条件的组<BR>
+	<BR>
+5. limit的使用<BR>
+<BR>
+	select * from 表名 limit (curPage-1)*pageSize, pageSize	//查出第curPage页的数据<BR>
+	<BR>
+6. distinct关键字<BR>
+<BR>
+	select distinct name from user	//去重<BR>
+	select distinct name, id from user	//去掉name，id同时重复的<BR>
+	可结合group by使用<BR>
+	<BR>
+7. 聚合函数<BR>
+<BR>
+	count、avg、max、min、sum等
+</DD>
+<DT>4. 数据完整性</DT>
+<!--property:date_created=1548906625-->
+<!--property:date_modified=1548998925-->
+<DD>
+1. 数据完整性<BR>
+<BR>
+	定义：保证用户输入的数据保存到数据库中是正确的<BR>
+	添加：在创建表时给表中添加约束<BR>
+	分类：实体完整性、域完整性、引用完整性<BR>
+<BR>
+2. 实体完整性<BR>
+<BR>
+	定义：表中的一行（一条记录）代表一个实体<BR>
+	作用：表示每一行数据不重复，行级约束<BR>
+	约束类型：<span style="background-color:#ffff00">主键、唯一、自动增长列</span><BR>
+	<BR>
+	主键----每个表中只能有一个主键，主键的数据唯一且不能为null<BR>
+	      ----create table 表名(字段1 数据类型, 字段2 数据类型, primary key(主键1, 主键2)	//联合主键<BR>
+	      ----添加方式：创建表时声明；先创建表，再去修改表添加主键<BR>
+	<BR>
+	唯一约束----指定列的数据不能重复，但可以为null<BR>
+		    ----对应字段后声明unique<BR>
+		<BR>
+	自动增长列----指定列的数据自动增长<BR>
+		       ----即使数据删除，还是从删除的序号继续增加<BR>
+		       ----对应字段后声明auto_increament，声明在主键后<BR>
+		<BR>
+3. 域完整性<BR>
+<BR>
+	使用：限制此单元格的数据正，域表示单元格<BR>
+	约束类型：<span style="background-color:#ffff00">数据类型、非空约束(not null)、默认值约束(default)</span><BR>
+<BR>
+4. 参照完整性<BR>
+<BR>
+	定义：表和表之间的对应关系<BR>
+	实现方式：通过设置两表之间的主键、<span style="background-color:#ffff00">外键关系</span>，或<span style="background-color:#ffff00">编写两表的触发器<BR>
+</span>	要求----外键必须连接到另一个表的唯一性索引上<BR>
+	      ----外键两端数据类型一定要一致<BR>
+	      ----外键相连的两表必须是InnoDB类型<BR>
+	      ----外键中的值必须是唯一性索引列存在的内容<BR>
+	      ----设置唯一性索引的表为主表，设置外键的表为子表<BR>
+	      ----建立外键的表不可删除（需要先删除外键）
+</DD>
+<DT>5. 多表查询</DT>
+<!--property:date_created=1548906635-->
+<!--property:date_modified=1549075714-->
+<DD>
+1. 表之间的关系<BR>
+<BR>
+	①一对一关系<BR>
+	②一对多关系----创建两张表，建立外键关系<BR>
+	③多对多关系----创建两张表，创建关系表，分别建立外键关系<BR>
+	<BR>
+2. 拆分表的原因：避免大量冗余<BR>
+<BR>
+3. 多表查询<BR>
+<BR>
+	①合并结果集----将两个select语句的查询结果合并到一起<BR>
+			  ----合并结果集的两种方式：union unionall<BR>
+			  ----语法：select * from 表1 union(unionall) select * from 表2<BR>
+			  ----union的查询结果去重，unionall不去重<BR>
+			  ----被合并的两个结果集的列数、列类型必须相同<BR>
+	②连接查询----即跨表查询，需要关联多个表进行查询<BR>
+		       ----同时查询两个表，出现的是笛卡尔集<BR>
+		       ----查询时给表起别名：select * from stu <span style="background-color:#ffff00">st</span>, score <span style="background-color:#ffff00">sc<BR>
+</span>		       ----如何保证数据正确：1)保持主键外键一致--&gt;select * from stu st, score sc <span style="background-color:#ffff00">where st.id = sc.sid</span><BR>
+						       2)主表当中的数据参照子表中的数据<BR>
+	③根据连接方式分类----内连接：1)等值连接：select * from stu st <span style="background-color:#ffff00">inner join</span> score sc on st.id = sc.sid<BR>
+						    2)非等值连接：select e.ename, e.salary, d.dname, g.grade from emp e <BR>
+										join dept d on e.deptno = d.deptno <BR>
+										join salgrade g on e.salary between g.lowsalary and g.highsalary<BR>
+				   ----外连接：1)左外连接：select * from stu st <span style="background-color:#ffff00">left outer join</span> score sc on st.id = sc.sid	//左边表全部查询，右边查满足条件的<BR>
+						    2)右外连接：select * from stu st <span style="background-color:#ffff00">right outer join</span> score sc on st.id = sc.sid	//右边表全部查询，左边查满足条件的<BR>
+				   ----自然连接：select * from stu <span style="background-color:#ffff00">natural join</span> score<BR>
+						*两张连接的表中列名称和类型完全一致的列作为条件；会去除相同的列<BR>
+	④多表联查：select st.name, c.name, sc.score from stu st inner join score sc on st.id = sc.sid join course c on sc.cid = c.cid<BR>
+<BR>
+4. 子查询<BR>
+<BR>
+	①概念：一个select语句中包含另一个完整的select语句或两个以上select<BR>
+	②出现的位置----where后，把select查询出的结果当做另一个select的条件值：select ename, deptno from emp where deptno = (select deptno from emp where ename = '项羽')<BR>
+			  ----from后，把查询出的结果当做一个新表：select ename, salary from (select ename, salary, deptno from emp where deptno = 30) s where s.salary &gt; 2000	
+</DD>
+<DT>6. 常用函数</DT>
+<!--property:date_created=1548906659-->
+<!--property:date_modified=1549173331-->
+<DD>
+1. 函数介绍<BR>
+<BR>
+	①函数是事先提供好的一些功能，可以直接使用<BR>
+	②函数可以用在select语及其子句<BR>
+	③也可以用在update、delete语句中<BR>
+	<BR>
+2. 函数分类：字符串函数、数值函数、日期和时间函数、流程函数、其他函数<BR>
+<BR>
+3. 字符串函数<BR>
+<BR>
+	①concat(s1, s2, ... sn)：将传入的字符串连接成一个字符串（任何字符串和null连接都是null）<BR>
+	②insert(str, x, y, str1)：从位置x开始，将后续y个字符替换为str1<BR>
+	③lower(str)和upper(str)：转为小写和大写<BR>
+	④left(str, x)和right(str, x)：返回字符串最左边或最右边的x个字符（x为null则不返回任何字符）<BR>
+	⑤lpad(str, n, pad)和rpad(str, n, pad)：用字符串pad对str最左边或最右边进行填充，直接到长度为n个字符长度<BR>
+	⑥ltrim(str)和rtrim(str)：去掉字串当中最左侧和最右侧的空格<BR>
+	⑦trim(str)：去掉字符串左右的空格<BR>
+	⑧repeat(str, x)：返回str重复x次结果<BR>
+	⑨replace(str, a, b)：用字符串b替换字符串str中所有的a<BR>
+	⑩substring(str, x, y)：返回字符串str中第x位置起y个长度的字符<BR>
+	<BR>
+4. 数值函数<BR>
+<BR>
+	①abs(x)：绝对值<BR>
+	②ceil(x)：向上取整<BR>
+	③floor(x)：向下取整<BR>
+	④mod(x,y)：求余数<BR>
+	⑤rand()：0-1的随机数<BR>
+	<BR>
+5. 日期和时间函数<BR>
+<BR>
+	①curdate()：返回当前日期，只包含年月日	curtime()：返回当前时间，只包含时分秒<BR>
+	②now()：返回当前日期和时间<BR>
+	③unix_timestamp()：返回当前日期的时间戳	from unixtime(unixtime)：讲时间戳转换成日期<BR>
+	④week(date)：返回一年中的第几周	year(date)	：返回所给日期是哪一年	hour(time)	：返回当前时间的小时	minute(time)：返回当前时间的分钟<BR>
+	⑤date_format(date,fmt)：按字符串格式化日期	date_add(date, interval expr type)：计算expr天后的日期	datediff(date1, date2)：计算时间间隔<BR>
+	<BR>
+6. 流程函数<BR>
+<BR>
+	①if(value, t, f)：如果value是真，返回t，否则返回f<BR>
+	②ifnull(value1, value2)：如果value1不为空，返回value1，否则返回value2<BR>
+	③case when ... then ... end<BR>
+	<BR>
+7. 其他常用函数<BR>
+<BR>
+	①database()：返回当前数据库名<BR>
+	②version()：返回当前版本<BR>
+	③user()：返回当前登录用户名<BR>
+	④password(str)：对str进行加密<BR>
+	⑤md5(str)：返回str的md5值<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+	
+</DD>
+<DT>7. 事务</DT>
+<!--property:date_created=1548906668-->
+<!--property:date_modified=1549174516-->
+<DD>
+1. 事务的概念<BR>
+<BR>
+	①事务指不可分割的操作<BR>
+	②每条sql语句都是一个事务<BR>
+	③事务支队DML语句有效，对DQL语句无效<BR>
+	<BR>
+2. 事务的ACID<BR>
+<BR>
+	①原子性（atomicity）：事务包含的所有操作要么全部成功，要么全部失败回滚<BR>
+	②一致性（consistency）：指事务必须使数据库从一个一致性状态变换到另一个一致性状态，即一个事务执行前后都必须处于一致性状态<BR>
+	③隔离性（isolation）：事务与事务之前存在隔离性，一个事务未完成前，另一个事务无法访问<BR>
+	④持久性（durability）：一旦事务提交，无法更改，永久写入数据库中<BR>
+	<BR>
+3. 事务的使用<BR>
+<BR>
+	①开启事务：start transaction<BR>
+	②回滚事务：rollback<BR>
+	③提交事务：commit<BR>
+	<BR>
+4. 事务的并发问题<BR>
+<BR>
+	①脏读：事务并发操作时读到了还未提交的事务的数据----read committed读提交可解决脏读问题<BR>
+	②不可重复读：一个事务范围内两个相同的查询却返回了不同数据----repeatable read可以解决不可重复读问题<BR>
+	③重复读：一个事务开启，不允许其他事务的修改等操作<BR>
+	④幻读：查询时新增了数据，导致两次查询结果不同<BR>
+	<BR>
+5. 事务的隔离级别<BR>
+<BR>
+	①read uncommitted：一个事务可以读取另一个事务未提交的数据<BR>
+	②read committed：一个事务要等另一个事务提交才能读取数据<BR>
+	③repeatable read：一个事务开启，不允许其他事务的修改等操作（默认）<BR>
+	④serializable：查询时也不允许其他事务的修改等操作（损耗数据库性能，一般不用）
+</DD>
+<DT>8. 权限管理</DT>
+<!--property:date_created=1548906676-->
+<!--property:date_modified=1549175755-->
+<DD>
+1. 权限的概念<BR>
+<BR>
+	限制一个用户能做什么事情，在MySQL中，可以设置全局权限、指定数据库权限、指定表权限、指定字段权限等<BR>
+	<BR>
+2. 权限的种类<BR>
+<BR>
+	create、drop、alter、delete、index、insert、select、update、create view、execute<BR>
+	<BR>
+3.  创建用户<BR>
+<BR>
+	create user 'myxq'@'localhost' identified by '1234'<BR>
+	<BR>
+4.  删除用户<BR>
+<BR>
+	drop user 'myxq'@'localhost'<BR>
+	<BR>
+5. 分配权限<BR>
+<BR>
+	grant 权限（columns）on 数据库对象 to 用户 identified by '密码' <span style="background-color:#ffff00">with grant option（可继续分配权限）<BR>
+</span>	<BR>
+6. 创建一个超级管理员<BR>
+<BR>
+	grant all privileges on *.* to 'mylk'@'localhost' identified by '1234' with grant option<BR>
+	flush privileges<BR>
+<BR>
+7. 创建对指定数据库的所有权限<BR>
+	<BR>
+	grant all privileges on 数据库名.* to 'gaowei'@'localhost' identified by '1234' with grant option<BR>
+	<BR>
+8. 创建一个gxq用户只能对stu表进行crud操作<BR>
+<BR>
+	grant insert,update,select,delete on mytest.stu to 'gxq'@'localhost' identified by '1234'<BR>
+	<BR>
+9. 查看权限<BR>
+<BR>
+	----show grants<BR>
+	----show grants for root@localhost<BR>
+	<BR>
+10. 删除权限<BR>
+<BR>
+	revoke 权限 on 数据库对象 from 用户
+</DD>
+<DT>9. 视图</DT>
+<!--property:date_created=1548906685-->
+<!--property:date_modified=1549177750-->
+<DD>
+1. 视图的概念<BR>
+<BR>
+	①视图是一个虚拟表，其内容由查询定义<BR>
+	②同真实的表一样，视图包含一系列带有名称的列和行数据<BR>
+	③行和列数据来自定义视图的查询所引用的表，并且在引用视图时动态生成<BR>
+	④简单来说视图就是由select结果组成的表<BR>
+	<BR>
+2. 视图的特性<BR>
+<BR>
+	①视图是对若干张基本表的引用，一张虚表，查询语句执行的结果<BR>
+	②视图不存储具体的数据（基本表数据发生了改变，视图也会跟着改变）<BR>
+	③可以跟基本表一样，进行增删改查操作（增删改操作有条件限制）<BR>
+<BR>
+3. 作用<BR>
+<BR>
+	①安全性：创建一个视图，定义好该视图所操作的数据，将用户权限与视图绑定（grant语句可以针对视图进行授予权限）<BR>
+	②查询性能提高<BR>
+	③提高了数据的独立性<BR>
+	<BR>
+4. 创建视图<BR>
+<BR>
+	create [algorithm]=[undefined/merge/temptable] view emp_salary as (select * from emp where salary&gt;2000) with [cascaded/local] check optioin<BR>
+	merge：处理方式为替换式，可以进行更新真实表中的数据<BR>
+	temptable：具化式，由于数据存储在临时表中，所以不可以进行更新操作<BR>
+	undefined：没有定义algorithm参数，MySQL更倾向于选择替换方式，因为更加有效<BR>
+	with check option：更新数据时不能插入或更新不符合视图限制条件的记录<BR>
+	local和cascaded：为可选参数，决定了检查测试的范围，默认值为cascaded<BR>
+	<BR>
+5. 修改视图<BR>
+<BR>
+	create or replace view emp_salary as (select * from emp where salary &gt; 3000)<BR>
+	<BR>
+6. 删除视图<BR>
+<BR>
+	drop view emp_salary<BR>
+	<BR>
+7. 视图机制<BR>
+<BR>
+	①替代式：操作视图时，视图名直接被视图定义给替换体<BR>
+	②具化式：MySQL先得到视图结果，该结果形成一个中间结果暂存在内存中<BR>
+	③区别----替代式：将视图公式替换后，当成一个整体sql进行处理了<BR>
+		 ----具化式：先处理试图结果，后处理外面的查询需求<BR>
+<BR>
+8. 视图不可更新部分<BR>
+<BR>
+	①聚合函数、distinct关键字、group by子句、having子句、union运算符、from子句中包含多个表、select语句中引用了不可更新视图<BR>
+	②只要视图当中的数据不是来自于基表，就不能直接修改<BR>
+<BR>
+			
+</DD>
+<DT>10. 存储过程</DT>
+<!--property:date_created=1548906704-->
+<!--property:date_modified=1549259205-->
+<DD>
+1. 存储过程概念<BR>
+<BR>
+	①一组可编程的函数，是为了完成特定功能的sql语句集<BR>
+	②存储过程就是具有名字的一段代码，用来完成一个特定的功能<BR>
+	③创建的存储过程保存在数据库的数据字典中<BR>
+	<BR>
+2. 为什么要用存储过程<BR>
+<BR>
+	①将重复性很高的一些操作，封装到一个存储过程中，简化了对这些sql的调用<BR>
+	②批量处理<BR>
+	③统一接口，确保数据安全<BR>
+	④相对于oracle来说，MySQL的存储功能相对较弱，使用较少<BR>
+	<BR>
+3. 存储过程的创建和使用<BR>
+<BR>
+	①delimiter $$：将标准分隔符';'改为'$$'<BR>
+	②创建存储过程：delmiiter $$ <BR>
+				create procedure show_emp() begin ... end $$<BR>
+	③使用存储过程：delimiter ;<BR>
+				call show_emp() ;<BR>
+	④查看存储过程----show procedure status<BR>
+	   查看指定数据库中的存储过程----show procedure status where db = 'my_test4'<BR>
+	   查看指定存储过程源代码----show create procedure 存储过程名<BR>
+	⑤删除存储过程：drop procedure show_emp<BR>
+	<BR>
+4. 存储过程变量<BR>
+<BR>
+	①在存储过程中声明一个变量----使用declare语句：declare x,y int default 0<BR>
+	②分配变量值----使用set语句为变量分配一个值<BR>
+			  ----使用select into语句将查询结果分配给一个变量<BR>
+	③变量的范围：变量只在begin和end中有效<BR>
+	<BR>
+5. 存储过程参数<BR>
+<BR>
+	三种类型----in：create procedure getName(in name varchar(255)) begin ... end $$<BR>
+		    ----out：create procedure getSalary(in n varchar(255), out <span style="background-color:#ffc0cb">salary</span> int) <BR>
+				 begin <BR>
+				 select salary into <span style="background-color:#ffc0cb">salary</span> from emp where ename = n; <BR>
+				 end$$<BR>
+				 call getSalary('鲁班', @sy);<BR>
+				 select @sy (from dual, 可省略)<BR>
+		    ----inout：create procedure test(inout num int, in inc int)<BR>
+				   begin<BR>
+				   set num = num + inc;<BR>
+				   end$$<BR>
+				   set @num1 = 20;<BR>
+				   call test(@num1, 10);<BR>
+				   select @num1;<BR>
+<BR>
+6. 存储过程语句<BR>
+<BR>
+	①if语句：if 表达式 then<BR>
+		      语句;<BR>
+		      else<BR>
+		      语句;<BR>
+		      end if;<BR>
+	②case语句：case 表达式<BR>
+			  when 表达式1 then 语句<BR>
+			  when 表达式2 then 语句<BR>
+			  ...<BR>
+			  else 语句<BR>
+			  end else;<BR>
+	③循环----while循环：while 表达式 do<BR>
+				      语句<BR>
+				      end while<BR>
+		 ----repeat循环：repeat<BR>
+					语句<BR>
+					until 表达式<BR>
+					end repeat<BR>
+					<BR>
+7. 自定义函数<BR>
+<BR>
+	实例<BR>
+		delimiter $$<BR>
+		create function rand_str(n int) returns varchar(255)<BR>
+		begin<BR>
+		declare str varchar(100) default 'abcdefg';<BR>
+		declare i int default 0;<BR>
+		declare res_str varchar(255) default '';<BR>
+		while i&lt;n do<BR>
+		set res_str = concat(res_str, substr(floor(1+rand()*7), 1));<BR>
+		set i = i+1;<BR>
+		end while<BR>
+		return res_str;<BR>
+		end$$<BR>
+		delimiter ;<BR>
+		select rand_str(5);<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+				
+</DD>
+<DT>11. 索引</DT>
+<!--property:date_created=1548906713-->
+<!--property:date_modified=1549274327-->
+<DD>
+1. 索引的概念<BR>
+<BR>
+	①索引用于快速找出在某个列中有一特定值的行<BR>
+	②不适用索引，MySQL必须从第一条记录开始读完整个表，知道找出相关的行<BR>
+	③如果表中查询的列有一个索引，MySQL能够快速到达一个位置去搜索数据文件，而不必查看所有数据<BR>
+	<BR>
+2. 索引的优势与劣势<BR>
+<BR>
+	①优势----提高数据检索效率，降低数据库的io成本<BR>
+		 ----通过索引对数据进行排序，降低数据排序的成本，降低CPU的消耗<BR>
+	②劣势----实际上索引也是一张表，该表保存了主键与索引字段，并指向实体表的记录，所以索引需要占据空间<BR>
+		 ----索引会降低表的更新速度，如insert、update、delete<BR>
+<BR>
+3. 索引的分类<BR>
+	<BR>
+	①单值索引：一个索引只包含单个列，一个表可以有多个单列索引<BR>
+	②唯一索引：索引列的值必须唯一，但允许有空值<BR>
+	③复合索引：一个索引包含多个列：index multidx(id, name, age)<BR>
+	④全文索引：只能用在myisam引擎上才能使用，只能在char、varchar、text类型字段上使用<BR>
+	<BR>
+4. 索引操作<BR>
+	<BR>
+	①创建索引：create index 索引名称 on table (列1, 列2, ...)<BR>
+	②删除索引：drop index 索引名称 on 表名<BR>
+	③查看索引：show index from 表名<BR>
+	④自动创建索引----在表上定义了主键时，会自动创建一个对应的唯一索引<BR>
+			     ----在表上定义了一个外键时，会自动创建一个普通索引<BR>
+			<BR>
+5. 索引结构<BR>
+<BR>
+	①B+树索引：是一个平衡的多叉树，从根节点到每个叶子节点的高度差值不超过1，而且同层级的节点间有指针相互连接<BR>
+	②哈希索引：采用一定的哈希算法，把键值换算成新的哈希值。检索时不需逐级查找，只需一次哈希算法即可立刻定位到相应的位置，速度非常快<BR>
+	<BR>
+6. 哪些情况需要创建索引<BR>
+<BR>
+	①主键自动建立唯一索引<BR>
+	②频繁作为查询条件的字段应该创建索引<BR>
+	③查询中与其他表关联的字段，外间关系建立索引<BR>
+	④查询中排序的字段<BR>
+	⑤查询中统计或者分组字段<BR>
+		<BR>
+7. 哪些情况不需要创建索引<BR>
+	<BR>
+	①表记录太少<BR>
+	②经常增删改的表，每次操作不仅操作数据，还会操作索引<BR>
+	③如果某个数据列包含许多重复的内容，为他建立索引就没有太大的实际效果	<BR>
+	④where条件里用不到的字段不创建索引					
+</DD>
+</DL>
+
+</DD>
+</DL>
+</BODY>
+</HTML>
