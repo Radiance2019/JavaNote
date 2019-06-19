@@ -1,0 +1,375 @@
+<!DOCTYPE NoteCase-File>
+<!--LastNote:7-->
+<HTML>
+<HEAD>
+<meta content="text/html;charset=UTF-8" http-equiv="Content-Type">
+<meta name="generator" content="NoteCase 1.9.8">
+<TITLE></TITLE>
+</HEAD>
+<BODY>
+<DL>
+<DT>MyBatisNote</DT>
+<!--property:date_created=1551076728-->
+<!--property:date_modified=1551077295-->
+<!--property:expanded-->
+<DD>
+<DL>
+<DT>1. MyBatis概述</DT>
+<!--property:date_created=1551077297-->
+<!--property:date_modified=1551077552-->
+<DD>
+1. JDBC----&gt;DButils(Query Runner)----&gt;JdbcTemplate<BR>
+<BR>
+	编写sql----&gt;预编译----&gt;设置参数----&gt;执行sql----&gt;封装结果<BR>
+	<BR>
+	功能简单；sql语句在java代码中；硬编码、高耦合<BR>
+	<BR>
+2. Hibernate：全自动ORM框架(Object Relation Mapping)框架，旨在消除sql<BR>
+<BR>
+	从javabean到DbRecords中间为黑箱操作；HQL(定制的sql语句)
+</DD>
+<DT>2. HelloWorld</DT>
+<!--property:date_created=1551079650-->
+<!--property:date_modified=1551097746-->
+<DD>
+1. 旧版方法<BR>
+<BR>
+	1）根据xml配置文件（全局配置文件）创建一个sqlsessionfactory对象，包含数据源一些运行环境信息<BR>
+<BR>
+	2）sql映射文件（mapper）：配置了每一个sql，以及sql的封装规则<BR>
+<BR>
+	3）将sql映射文件注册在全局配置文件中<BR>
+<BR>
+	4）写代码<BR>
+<BR>
+		①根据全局配置文件得到sqlsessionfactory<BR>
+	<BR>
+		②使用sqlsessionfactory，获取到sqlsession对象使用其进行增删改查，一个sqlsession就是代表和数据库的一次会话，用完关闭<BR>
+	<BR>
+		③使用sql唯一标志来告诉mybatis执行哪个sql，sql都是保存在sql映射文件中的<BR>
+		<BR>
+2. 接口式编程<BR>
+<BR>
+	1）根据xml配置文件（全局配置文件）创建一个sqlsessionfactory对象，包含数据源一些运行环境信息<BR>
+<BR>
+	2）sql映射文件（mapper）：配置了每一个sql，以及sql的封装规则<BR>
+<BR>
+	3）将sql映射文件注册在全局配置文件中<BR>
+	<BR>
+	4）写代码：获取接口的实现类对象，mybatis会为接口自动创建一个代理对象，代理对象去执行增删改查方法<BR>
+	<BR>
+	5）注意事项<BR>
+	<BR>
+		①原生：Dao ----&gt; DaoImpl	mybatis：Mapper ----&gt;xxMapper.xml<BR>
+		<BR>
+		②sqlsession和connection一样，都是非线程安全的，每次使用都应该获取新的对象<BR>
+		<BR>
+		③mapper没有实现类，但是mybatis会为这个接口生成一个代理对象<BR>
+		<BR>
+3. opensession()----&gt;手动提交；opensession(true)----&gt;自动提交
+</DD>
+<DT>3. 全局配置文件</DT>
+<!--property:date_created=1551084335-->
+<!--property:date_modified=1551087442-->
+<DD>
+1. 引入dtd约束，开发中有代码提示<BR>
+<BR>
+2. 使用properties标签引入外部配置文件<BR>
+<BR>
+3. settings标签改变运行时行为设置<BR>
+<BR>
+	mapUnderscoreToCamelCase属性可将数据库下划线连接类名自动转为驼峰式命名，默认值为false<BR>
+	<BR>
+4. typealiases标签起别名<BR>
+<BR>
+	&lt;typeAlias type=&quot;&quot; alias=&quot;&quot;/&gt;：起别名，默认别名是类名小写<BR>
+	<BR>
+	&lt;package name=&quot;&quot;/&gt;：将包下每一个类都起一个默认别名<BR>
+	<BR>
+5. typehandlers类型处理器<BR>
+<BR>
+6. plugins插件<BR>
+<BR>
+7. environments可以配置多种环境<BR>
+<BR>
+	1）default指定使用某种环境，可以达到快速切换环境<BR>
+	<BR>
+	2）transactionManager：事务管理器<BR>
+		type：事务管理器类型（JDBC/MANAGED）<BR>
+		自定义事务管理器：实现TransactionFactory接口，type指定为全类名<BR>
+		<BR>
+	3）DataSource：数据源<BR>
+		type：数据源类型（POOLED/UNPOOLED/JNDI）<BR>
+		自定义数据源：实现DataSourceFactory接口，type是全类名<BR>
+		<BR>
+8. databaseIDprovider支持多数据库<BR>
+<BR>
+	type=“DB_VENDOR&quot;，作用就是得到数据库厂商的标识，mybatis就可以根据数据库厂商标识来执行不同的sql：MySQL，Oracle， SQL Server等<BR>
+	<BR>
+	&lt;property name=&quot;MySQL&quot; value=&quot;mysql&quot;/&gt;<BR>
+	<BR>
+	sql映射文件语句中有databaseid属性，可以指定数据库<BR>
+	<BR>
+9. mappers标签将写好的sql映射文件注册到全局配置文件<BR>
+<BR>
+	resource：引用类路径下的映射文件<BR>
+	<BR>
+	url：引用网络路径或者磁盘路径下的sql映射文件<BR>
+	<BR>
+	class：引用注册接口，要求<BR>
+		①有sql映射文件，映射文件名和接口同名，并且放在与接口同一目录下<BR>
+		②没有sql映射文件，所有的sql都是利用注解写在接口上<BR>
+		<BR>
+	package：批量注册，同样要求映射文件和接口放在同一包下<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+	
+</DD>
+<DT>4. 增删改查</DT>
+<!--property:date_created=1551097223-->
+<!--property:date_modified=1551169692-->
+<DD>
+1. mybatis允许增删改直接定义以下类型返回值：integer、long、boolean<BR>
+<BR>
+2. 获取自增主键的值（insert）<BR>
+<BR>
+	MySQL支持自增主键及其值的获取，mybatis也是利用statement.getgeneratedkeys()来获取的<BR>
+	usegeneratedkeys=“true”：使用自增主键获取主键值的策略<BR>
+	keyproperty：指定对应的主键属性，也就是mybatis获取到主键值以后，将这个值封装给javabean的哪个属性<BR>
+	*非自增主键值的获取使用selectkey标签（其他数据库如Oracle）<BR>
+	<BR>
+3. 参数处理<BR>
+<BR>
+	1）单个参数：mybatis不会做特殊处理----&gt;#{参数名}<BR>
+	<BR>
+	2）多个参数：mybatis会做特殊处理，多个参数会被封装成一个map<BR>
+		key：param1...paramN，或者参数的索引<BR>
+		value：传入的参数值<BR>
+		#{}就是从map中获取指定的key值<BR>
+	<BR>
+	3）命名参数：明确执行封装参数时map的key：@param(&quot;id&quot;)，多个参数会被封装成一个map<BR>
+		key：使用@param注解指定的值<BR>
+		value：参数值<BR>
+		#{指定的key}去除对应的参数值<BR>
+		<BR>
+	4）POJO：如果多个参数正好是业务逻辑的数据模型，就可以直接传入pojo<BR>
+		#{属性名}：取出传入的pojo的属性值<BR>
+		<BR>
+	5）Map：如果多个参数不是业务模型中的数据，没有对应的pojo，不经常使用，为了方便，我们也可以传入map<BR>
+		#{key}：取出map中对应的值<BR>
+		<BR>
+	6）TO：如果多个参数不是业务模型中的数据，但是经常要使用，推荐编写一个TO(Transfer Object)数据传输对象<BR>
+		Page{<BR>
+			int index；<BR>
+			int size；<BR>
+		}<BR>
+		<BR>
+	7）集合&amp;数组：如果参数是集合类型或者是数组类型，也会做特殊处理<BR>
+		key：Collection(collection)、List(list)、Array(array)<BR>
+		<BR>
+	8）#{}与￥{}取值的区别<BR>
+		#{}：以预编译的形式，将参数设置到sql语句中<BR>
+		${}：取出的值直接拼装在sql语句中<BR>
+		大多数情况下，取参数的值都应该去使用#{}；原生jdbc不支持占位符的地方需要使用${}进行取值		<BR>
+<BR>
+	9）#{}的其他用法<BR>
+		规定参数的一些规则：javatype、jdbctype、mode(存储过程)、numericScale、resultMap、typeHandler、jdbcTypeName、expression(未来准备支持的功能)<BR>
+<BR>
+3. 查询<BR>
+<BR>
+	1）如果返回的是一个集合，resulttype仍然指定为集合中的元素类型<BR>
+	<BR>
+	2）返回一条记录的map：key为列名，value为对应的值，resulttype=&quot;map&quot;<BR>
+	<BR>
+	3）返回多条记录的map：key为记录的主键，值为记录封装后的Javabean，resulttype为Javabean，并添加@mapkey()注解，指定封装哪个属性作为主键<BR>
+	<BR>
+	4）resultmap：自定义某个Javabean的规则<BR>
+		type：自定义规则的java类型<BR>
+		id：唯一id，方便使用<BR>
+		指定封装规则----id标签：定义主键主键，底层有优化<BR>
+				  ----column：指定哪一列<BR>
+				  ----property：指定对应的Javabean属性<BR>
+				  ----result标签：定义普通列封装规则（包括主键）<BR>
+				  ----其他不指定的列会自动封装<BR>
+				  ----支持级联属性的封装，也可以使用association标签定义单个对象的封装规则，property指定哪个属性是联合对象，Javatype指定这个属性对象的类型<BR>
+				  ----association也可以用来进行分步查询，使用select属性表明当前属性是调用select指定的方法查出的结果，column指定将哪一列的值传给这个方法<BR>
+				  ----分段查询可以使用延迟加载：在settings中，设置lazyLoadingEnabled为true，设置aggressiveLazyLoading为false<BR>
+				  ----collection标签定义关联集合类型的属性的封装规则，oftype指定集合中封装的元素类型<BR>
+				  ----多列的值传递：将多列的值封装map传递，column=&quot;{key1=column1,key2=column2}&quot;<BR>
+				  ----fetchtype：延迟加载属性，lazy表示延迟，eager立即<BR>
+				  ----discriminator：鉴别器，mybatis可以使用鉴别器判断某列的值，然后根据某列的值改变封装行为。column指定判定的列名，Javatype列值对应的java类型，case标签中resulttype指定封装的结果类型<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+		
+</DD>
+<DT>5. 动态SQL</DT>
+<!--property:date_created=1551169851-->
+<!--property:date_modified=1551540997-->
+<DD>
+1. if标签：test后判断表达式(OGNL)，遇见特殊符号写转义字符，字符串与数字自动转换<BR>
+<BR>
+2. where标签：将所有查询条件包括在内，会自动去掉其中拼装的第一个多余的and<BR>
+<BR>
+3. trim标签：自定义字符串截取规则<BR>
+<BR>
+	prefix：前缀，trim标签体中是整个字符串拼串后的结果，prefix给拼串后的结果加一个前缀<BR>
+	prefixOverrides：前缀覆盖，去掉整个字符串前面多余的字符<BR>
+	suffix：后缀，trim标签体中是整个字符串拼串后的结果，suffix给拼串后的结果加一个前缀<BR>
+	suffixOverrides：后缀覆盖，去掉整个字符串后面多余的字符<BR>
+	<BR>
+4. choose标签：分支选择，相当于Java中的switch-case，when标签相当于case，otherwise标签相当于default<BR>
+<BR>
+5. set标签：将所有更新条件包括在内，会自动去掉拼装的逗号<BR>
+<BR>
+6. foreach标签：遍历集合<BR>
+<BR>
+	collection：指定要遍历的集合<BR>
+	item：将当前遍历出的元素赋值给指定的变量<BR>
+	separator：每个元素之间的分隔符<BR>
+	open：遍历出的所有结果拼接一个开始的字符<BR>
+	close：遍历出的所有结果拼接一个结束的字符<BR>
+	index：索引。遍历list的时候index就是索引，遍历map的时候index就是map的key，item就是map的值<BR>
+	#{变量名}：取出变量的值就是当前遍历出的元素<BR>
+	批量保存可以使用foreach，因为MySQL支持values(),(),()...的语法<BR>
+	使用分号分隔多个SQL语句可以执行批量操作，但需要设置数据库连接属性allowMultiQueries=true（在配置文件中修改URL）<BR>
+	<BR>
+7. 两个内置参数<BR>
+<BR>
+	_parameter：代表整个参数，其中方法传单个参数，_parameter就是这个参数；方法传多个参数，_parameter就代表参数被封装的map<BR>
+	_databaseId：如果配置了databaseIdProvider标签，_databaseId就是代表当前数据库的别名<BR>
+	<BR>
+8. bind标签：可以将OGNL表达式的值绑定到一个变量中，方便后来引用这个变量的值<BR>
+<BR>
+9. sql标签：抽取可重用的sql片段，方便后面引用，include标签来引用已经抽取的sql，include还可以自定义一些property，sql标签内部就能使用自定义的属性，取值的方式为${prop}<BR>
+	<BR>
+<BR>
+<BR>
+	<BR>
+	<BR>
+	<BR>
+	<BR>
+	<BR>
+	<BR>
+	<BR>
+	<BR>
+	<BR>
+	
+</DD>
+<DT>6. mybatis缓存机制</DT>
+<!--property:date_created=1551541003-->
+<!--property:date_modified=1551542419-->
+<DD>
+1. mybatis提供两级缓存机制<BR>
+<BR>
+	1）一级缓存<BR>
+		<BR>
+		即本地缓存，与数据库同义词会话期间查询到的数据会放在本地缓存中，以后如果需要获取相同的数据，直接从缓存中拿<BR>
+		<BR>
+		是sqlsession级别的缓存，一级缓存是一直开启的<BR>
+		<BR>
+		一级缓存失效的情况：sqlsession不同；查询条件不同；两次查询之间执行了增删改操作；手动清除了一级缓存<BR>
+		<BR>
+	2）全局缓存<BR>
+	<BR>
+		基于namespace级别的缓存，一个namespace对应一个二级缓存<BR>
+		<BR>
+		工作机制<BR>
+		----一个会话查询一条数据，这个数据就会被放在当前会话的一级缓存中<BR>
+		----如果会话关闭，一级缓存中的数据会被保存到二级缓存中；新会话查询信息，就可以参照二级缓存<BR>
+		<BR>
+		使用<BR>
+		----开启全局二级缓存配置，setting标签设置cacheenabled为true<BR>
+		----去mapper.xml中配置使用二级缓存（使用cache标签即可）<BR>
+		----POJO实现序列化接口<BR>
+		<BR>
+		eviction：缓存回收策略，默认的是LRU<BR>
+		----LRU：最近最少使用<BR>
+		----FIFO：先进先出<BR>
+		----SOFT：软引用，移除基于垃圾回收器状态和软引用规则的对象<BR>
+		----WEAK：弱引用，更积极的移除基于垃圾收集器状态和弱引用规则的对象<BR>
+		<BR>
+		flushInternal：缓存刷新间隔，默认不清空<BR>
+		<BR>
+		readOnly：是否只读，默认false<BR>
+		<BR>
+		size：缓存存放多少元素<BR>
+		<BR>
+		type：指定自定义缓存的全类名，实现cache接口即可<BR>
+		<BR>
+	
+</DD>
+<DT>7. 插件</DT>
+<!--property:date_created=1551865164-->
+<!--property:date_modified=1551889922-->
+<DD>
+1. 插件原理<BR>
+<BR>
+	1）在四大对象创建的时候，每个创建出来的对象不是直接返回的，而是interceptorChain.pluginAll(parameterHandler)<BR>
+	<BR>
+	2）获取到所有的Interceptor（拦截器）（插件需要实现的接口），调用interceptor.plugin(target)，返回target包装后的对象<BR>
+	<BR>
+	3）插件机制：可以使用插件为目标对象创建一个代理对象，用到了AOP思想；其中，代理对象就可以兰街道四大对象的每一个执行<BR>
+	<BR>
+2. 插件编写<BR>
+<BR>
+	1）编写Interceptor的实现类，需要重写的方法包括：<BR>
+		intercept：拦截，拦截目标对象的目标方法的执行<BR>
+		plugin：包装目标对象，为目标对象创建一个代理对象（可以借助Plugin类的wrap方法来自使用当前拦截器包装目标对象，最终返回当前target创建的动态代理<BR>
+		setproperties：将插件注册时的property属性设置进来<BR>
+	<BR>
+	2）使用@Intercepts完成插件签名，告诉mybatis当前插件用来拦截哪个对象的哪个方法<BR>
+	<BR>
+	3）使用plugins标签将写好的插件注册到全局配置文件中<BR>
+	<BR>
+3. 多个插件运行流程：多个插件会产生多层代理，创建动态代理的时候，是按照插件配置顺序创建层层代理对象，执行目标方法之后，按照逆向顺序执行<BR>
+<BR>
+4. pageHelper用法<BR>
+<BR>
+	1）导入jar包<BR>
+	<BR>
+	2）全局配置文件导入插件<BR>
+	<BR>
+	3）mapper接口调用之前，使用pagehelper.startpage(1, 10)<BR>
+	<BR>
+5. 配置批量sqlsession<BR>
+<BR>
+	1）全局配置文件配置可批量的sqlsession<BR>
+	&lt;bean id=&quot;sqlsession&quot; class=&quot;....sqlsessiontemplate&quot;&gt;<BR>
+		&lt;constructor-arg name=&quot;sqlsessionfactory&quot; ref=&quot;sqlsessionfactory&quot;/&gt;<BR>
+		&lt;constructor-arg name=&quot;executortype&quot; value=&quot;BATCH&quot; /&gt;<BR>
+	&lt;/bean&gt;<BR>
+	<BR>
+	2）service层@autowired一个sqlsession，通过其调用mapper即可
+</DD>
+</DL>
+
+</DD>
+</DL>
+</BODY>
+</HTML>
