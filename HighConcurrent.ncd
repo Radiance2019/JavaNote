@@ -1,0 +1,179 @@
+<!DOCTYPE NoteCase-File>
+<!--LastNote:3-->
+<HTML>
+<HEAD>
+<meta content="text/html;charset=UTF-8" http-equiv="Content-Type">
+<meta name="generator" content="NoteCase 1.9.8">
+<TITLE></TITLE>
+</HEAD>
+<BODY>
+<DL>
+<DT>同步器</DT>
+<!--property:date_created=1555890555-->
+<!--property:date_modified=1555890555-->
+<!--property:expanded-->
+<DD>
+<DL>
+<DT>1. 多线程基础</DT>
+<!--property:date_created=1555890565-->
+<!--property:date_modified=1555899627-->
+<DD>
+1. 对读方法不加锁，写方法加锁容易产生脏读问题<BR>
+<BR>
+2. 一个同步方法可以调用另一个同步方法，一个线程已经拥有某个对象的锁，再次申请的时候仍会得到该对象的锁<BR>
+	*即：synchronized获得的锁是可重入的<BR>
+	*子类调用父类的同步方法同样体现了可重入锁<BR>
+	<BR>
+3. 线程之间通讯的两种方式：1）共享内存；2）收发消息<BR>
+<BR>
+4. 程序执行过程中，如果出现异常，默认情况锁会被释放<BR>
+<BR>
+5. volatile关键字：使一个变量在多个线程间可见<BR>
+	*过程：线程开始时，先将变量值从内存中读取到该线程工作区，运行过程中使用此copy，因此线程之间不可见<BR>
+	*volatile只保证可见性，不保证原子性，效率高于synchronized<BR>
+	<BR>
+6. AtomXXX：原子类本身的方法都是具有原子性的，但不能保证多个方法连续调用是原子性的<BR>
+<BR>
+7. synchronized优化：同步代码块中的语句越少越好<BR>
+<BR>
+8. 锁定对象o，如果o的属性发生改变，不影响锁的使用；但如果变成另一个对象，则锁定的对象发生改变<BR>
+<BR>
+9. 不要以字符串常量作为锁定对象：可能导致程序与用到的类库使用了同一把锁<BR>
+<BR>
+10. 面试题：一个容器，线程1向其中添加10个元素，线程2监控容器中元素个数，当个数为5时，线程2结束<BR>
+	*方法一：使用volatile关键字声明list	缺点：线程2死循环浪费cpu；线程2未必一定能在正确时间抢到cpu资源，不精确<BR>
+	*方法二：使用wait/notify			缺点：方法复杂<BR>
+	*方法三：使用CountDownLatch		优点：通信方式简单，可以指定等待时间，使用await和countdown方法，不涉及锁定，count值为0当前线程继续运行<BR>
+	*其他：cyclicbarrier/semaphore		特点：适用于不涉及同步，只考虑线程通信的情况
+</DD>
+<DT>2. 锁机制和ThreadLocal</DT>
+<!--property:date_created=1555926497-->
+<!--property:date_modified=1555946780-->
+<DD>
+1. ReentrantLock：可重入锁<BR>
+	*使用reentrantlock可以完成与synchronized相同的功能，但必须要手动的锁定(lock)和释放锁(unlock)<BR>
+	*通常情况下在finally中释放锁<BR>
+	*使用reentrantlock可以使用尝试锁定----不管锁定与否，方法都将继续执行<BR>
+							   ----可以根据trylock的返回值判断是否锁定<BR>
+							   ----可以指定trylock的时间<BR>
+	*还可以使用lockInterruptibly方法，对线程interrupt方法做出响应<BR>
+	*reentrantlock可以指定为公平锁：new reentrantlock(true)<BR>
+	<BR>
+2. 公平锁：等待时间越长的就会优先得到锁<BR>
+	*默认的都是非公平锁<BR>
+	<BR>
+3. 生产者消费者模式<BR>
+	*写一个固定容量的同步容器，拥有put和get方法，以及getCount方法<BR>
+	*能够支持几个生产者线程和几个消费者线程的阻塞调用<BR>
+	*可以使用Lock和Condition来实现(可以更加精确的指定哪些线程被唤醒)<BR>
+	<BR>
+4. ThreadLocal：线程局部变量<BR>
+	*ThreadLocal是用空间换时间，synchronized是用时间换空间
+</DD>
+</DL>
+
+</DD>
+<DT>同步容器</DT>
+<!--property:date_created=1555926609-->
+<!--property:date_modified=1559289624-->
+<DD>
+1. 线程安全的单例模式<BR>
+<BR>
+	*八种单例模式的写法和比较：https://www.cnblogs.com/zhaoyan001/p/6365064.html<BR>
+	*使用内部类的单例模式<BR>
+	*使用枚举实现单例模式<BR>
+	*双重检查的原因----内层：若仅有外层判断，则在获取锁之前判断进行判断，并未起到同步作用<BR>
+			      ----外层：若仅有内层判断，则每次都进行同步，而新建对象仅需1次即可<BR>
+			<BR>
+2. HashTable：默认所有方法都加了锁，锁定整个对象<BR>
+<BR>
+3. ConcurrentHashMap：效率高于HashTable，基于分段锁的机制来实现同步，实现了线程安全，同时提高了可并发程度<BR>
+	*为了避免HashMap的线程安全问题，可以改用HashTable和Collections. synchronizedMap()，但是二者都有着共同的性能瓶颈，无论读还是写操作，他们都会给整个集合加锁。<BR>
+	ConcurrentHashMap采用分段锁的设计来提高并发度。ConcurrentHashMap，它内部细分了若干个小的HashMap，称之为段(Segment)。默认情况下一个ConcurrentHashMap被进一步细分为16个段。<BR>
+	不同的段可以同时读写，相同的段可以同时一个读一个写，但同一段不能同时写。其中大量使用final、volatile等来减少锁竞争对性能的影响，特别是Entry中的value以及next都被volatile修饰，这样在多线程读写过程中能够保持它们的可见性。<BR>
+	ConcurrentHashMap在进行size方法的时候，会先统计每个段的元素数量，然后统计修改次数，看统计元素数量操作前后的修改次数是否相等，如果不等，说明在统计元素数量过程中，又发生了对元素数量的修改操作，故重新尝试统计，并将尝试次数加1。<BR>
+	如果最终尝试次数超过一定阈值，那么就给每个Segment加锁，再重新统计。这里用到了乐观锁和悲观锁的概念，当尝试一定次数，才无奈转为悲观锁。<BR>
+<BR>
+4. ConcurrentSkipListMap：基于跳表的同步Map，数据是有序的<BR>
+<BR>
+5. Collections.sychronized(XXX)：传入未加锁的对象，返回加锁的对象。默认对整个对象加锁<BR>
+<BR>
+6. CopyOnWriteList：写时复制链表（如监听器列表）<BR>
+<BR>
+7. ConcurrentLinkedQueue：offer()方法往里添加数据，添不进去就返回false；add()方法往里添加数据，添不进去就报错。<BR>
+<BR>
+8. LinkedBlockingQueue，ArrayBlockingQueue：offer()方法往里添加数据，添不进去就返回false；add()方法往里添加数据，添不进去就报错；put()方法往里添加数据，添不进去就阻塞。<BR>
+<BR>
+9. DelayQueue：可用于执行定时任务，里面的每个任务都会有设置个延迟时间，延迟时间到了才会执行该任务。<BR>
+<BR>
+10. LinkedTransferQueue：通过transfer()方法直接把任务发给消费者而不放入到队列中，如果没有可用消费者就一直阻塞等待；而通过offer、add、put方法可以将任务放到队列中。<BR>
+<BR>
+11. SynchronousQueue：容量为0的队列，来的任何一个任务都要被消费者消费掉，使用add()方法会直接报错，通过put()方法会阻塞等待消费者。
+</DD>
+<DT>线程池</DT>
+<!--property:date_created=1555926638-->
+<!--property:date_modified=1557194789-->
+<DD>
+1. Executor接口<BR>
+	*execute方法：传入Runnable接口的参数<BR>
+	<BR>
+2. ExecutorService接口<BR>
+	*submit方法：传入Runnable或Callable接口的参数<BR>
+		*Runnable：无返回值；无法抛出异常<BR>
+		*Callable：有返回值；可以抛出异常<BR>
+		<BR>
+3. Executors工具类：操作Executor、ExecutorService的工具类<BR>
+<BR>
+4. ThreadPool线程池<BR>
+	*线程池常用方法：<BR>
+		*shutdown()：关闭线程池<BR>
+		*isTerminated()：是否任务全部执行完<BR>
+		*isShutdown()：是否调用过shutdown方法<BR>
+	*Executors.newFixedThreadPool(5)：固定线程数为5的线程池<BR>
+	*Executors.newCachedThreadPool()：创建起始状态没有运行的线程，每当增加新任务且无空闲线程可用时，增加一个线程<BR>
+		*线程默认空闲60s后死亡<BR>
+	*Executors.newSingleThreadPool()：单线程线程池，保证程序按照一定的顺序执行<BR>
+	*Executors.newScheduledPool()：调用scheduleAtFixedRate()方法，参数分别为Runnable参数、起始时间、间隔时间、时间单位<BR>
+	*Executors.newWorkStealingPool()：正常情况下每个线程维护自己的队列，而该线程池中空闲的线程能够获取并执行其他线程中阻塞的任务<BR>
+		*由于产生的是精灵线程（守护线程、后台线程），因此主线程不阻塞的状态下无法观察到其输出<BR>
+		*精灵线程在后台不断运行，虚拟机不退出此线程不退出<BR>
+		<BR>
+5. Future<BR>
+	*FutureTask：FutureTask task = new FutureTask()<BR>
+		*具有返回值；相当于新建了一个Callable的对象，并重写了call方法<BR>
+		*运行该任务：new Thread(task).start()<BR>
+		*阻塞方法：task.get()，等待任务完成获取返回值<BR>
+	*Futrue：Future f = service.submit(()-&gt;{return 0;})<BR>
+		*阻塞方法：f.get()<BR>
+		*isDone()：任务是否完成<BR>
+<BR>
+6. 并行计算：使用线程池，将大范围拆成几个小范围同时计算，提高计算效率<BR>
+	*例：计算1-200000中的质数，将其分为1-80000、80000-130000、130000-170000、170000-200000等四段，同时计算<BR>
+	*不均分的原因是数字越大，判断是否为质数就越复杂<BR>
+<BR>
+7. ForkJoinPool：一个任务体量过大时，需将其分割为体量较小的子任务执行再合并<BR>
+	*ForkJoinPool中的任务必须是ForkJoinTask，一般都是自定义类继承于RecursiveAction类和RecursiveTask<BR>
+	*RescursiveAction无返回值，RecursiveTask有返回值，故后者需要join而前者不需要<BR>
+	*重写compute()方法<BR>
+<BR>
+8. ThreadPoolExecutor<BR>
+	*除WorkStealingPool利用ForkJoinPool实现以外，其他底层均使用ThreadPoolExecutor实现<BR>
+	*该类可以自定义实现线程池，需要传入5个参数<BR>
+		*corePoolSize：核心的线程数<BR>
+		*maximumPoolSize：最大线程数<BR>
+		*keepAliveTime：存活时间<BR>
+		*unit：时间单位<BR>
+		*workQueue：任务队列(阻塞)		<BR>
+<BR>
+9. ParallelStreamAPI<BR>
+	*不使用多线程的方式：nums.forEach(v-&gt;isPrime(v))<BR>
+	*使用多线程的方式：nums.parallelStream().forEach(Main::isPrime)<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+	
+</DD>
+</DL>
+</BODY>
+</HTML>
