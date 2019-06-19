@@ -1,0 +1,154 @@
+<!DOCTYPE NoteCase-File>
+<!--LastNote:6-->
+<HTML>
+<HEAD>
+<meta content="text/html;charset=UTF-8" http-equiv="Content-Type">
+<meta name="generator" content="NoteCase 1.9.8">
+<TITLE></TITLE>
+</HEAD>
+<BODY>
+<DL>
+<DT>JDBCnote</DT>
+<!--property:date_created=1549766958-->
+<!--property:date_modified=1549766958-->
+<!--property:expanded-->
+<DD>
+<DL>
+<DT>1. 基本使用</DT>
+<!--property:date_created=1549766974-->
+<!--property:date_modified=1549769300-->
+<DD>
+1. JDBC概念<BR>
+<BR>
+	是一种用于执行sql语句的Java api，由一组用Java语言编写的类和接口组成<BR>
+	<BR>
+2. JDBC连接MySQL<BR>
+<BR>
+	①加载驱动----&gt;Class.forName(“com.mysql.jdbc.driver”)<BR>
+	②连接数据库----&gt;DriverManager.getConnection(url, user, password)<BR>
+	<BR>
+	
+</DD>
+<DT>2. CURD</DT>
+<!--property:date_created=1549766980-->
+<!--property:date_modified=1549770797-->
+<DD>
+1. JDBC连接MySQL<BR>
+<BR>
+	①加载驱动----&gt;Class.forName(“com.mysql.jdbc.driver”)<BR>
+	②连接数据库----&gt;Connection conn = DriverManager.getConnection(url, user, password)<BR>
+	③创建sql语句----&gt;String sql = &quot;insert into stu values(1,'zs',20)&quot;<BR>
+				   Statement st = conn.createStatement()<BR>
+	④执行sql语句----&gt;int row = st.executeUpdate(sql)<BR>
+	⑤释放资源----&gt;st.close()<BR>
+			      conn.close()<BR>
+<BR>
+2. DML：executeUpdate<BR>
+<BR>
+3. DQL：executeQuery<BR>
+<BR>
+	ResultSet res = st.executeQuery(sql)<BR>
+<BR>
+	①判断下一行是否为空：res.next()<BR>
+	②取一条数据：String name = res.getString(&quot;ename&quot;)<BR>
+	③取多条数据：while循环
+</DD>
+<DT>3. DAO</DT>
+<!--property:date_created=1549770885-->
+<!--property:date_modified=1549784764-->
+<DD>
+1. DAO<BR>
+<BR>
+	即data access object，数据获取对象<BR>
+	<BR>
+2. domain<BR>
+<BR>
+	就是一个符合javabean规范的类，该类中包含字段和该字段的getter和setter方法<BR>
+	是用户与数据库交互的核心中转站<BR>
+	 <BR>
+3. DAO设计规范<BR>
+<BR>
+	①编写DAO组件----定义DAO接口<BR>
+			      ----编写对应DAO实现类<BR>
+	②定义接口的原因：面向接口编程----根据客户提出的需求，定义接口，业务具体实现通过实现类来完成<BR>
+						     ----当客户提出新的需求，只需要编写该业务逻辑的实现类<BR>
+						     ----业务逻辑清晰、增强代码的扩展性和可维护性、适合团队协作开发、降低耦合度<BR>
+	③包名的规范----整体规范：域名倒写.模块名称.组件名称<BR>
+			  ----DAO包规范----package com.it666.jdbc.domain 存储所有的domain<BR>
+					       ----package com.it666.jdbc.dao 存储所有的dao接口<BR>
+					       ----package com.it666.jdbc.dao.impl 存储所有的dao接口实现类<BR>
+					       ----package com.it666.jdbc.dao.test 存储dao组件测试类<BR>
+			  ----类名规范----domain类：存储在domain包中，见名知意<BR>
+					   ----dao接口：存储在dao包中，用于表示某一个对象的CURD声明，IDomainDao<BR>
+					   ----dao实现类：存储在dao.impl中，用于表示dao接口的实现类，要实现dao接口，DomainDAOImpl<BR>
+			
+</DD>
+<DT>4. 预编译语句</DT>
+<!--property:date_created=1549766993-->
+<!--property:date_modified=1549791446-->
+<DD>
+1. 预编译语句<BR>
+<BR>
+	即用'?'代替原本输入的参数，通过setXxx(index, parameter)指定参数<BR>
+	预编译语句可以防止sql注入，因为特殊符号会被自动转义<BR>
+	<BR>
+2. sql注入<BR>
+<BR>
+	如登录时，静态的sql语句会发生安全问题（如：‘ or 1=1 or '）<BR>
+	<BR>
+3. 查询预编译sql语句：((JDBC4PreparedStatement)ps).asSql()<BR>
+<BR>
+4. JDBC调用存储过程<BR>
+<BR>
+	连接数据库----&gt;调用存储过程 CallableStatement cs = conn.prepareCall(&quot;{call getStu(?)}&quot;) ----&gt;设置参数----&gt;执行存储过程<BR>
+	输出参数：cs.registerOutParameter(2, Types.VARCHAR)
+</DD>
+<DT>5. 事务与批处理</DT>
+<!--property:date_created=1549767011-->
+<!--property:date_modified=1549852851-->
+<DD>
+1. 处理事务问题<BR>
+<BR>
+	①关闭自动提交：conn.setAutoCommit(false)<BR>
+	②没有问题时，提交事务：conn.commit()<BR>
+	----在这两行代码中间的部分即为事务<BR>
+	③出现异常时，进行回滚操作：conn.rollback()<BR>
+	④只有增删改才需要事务，查询不需要事务<BR>
+	<BR>
+2. 批处理<BR>
+<BR>
+	①一次性执行多条sql语句，允许多条语句一次性提交给数据库批量处理，比单独提交处理效率高<BR>
+	②在循环体中，通过ps.addBatch()添加批处理，循环结束后通过ps.executeBatch()执行批处理<BR>
+	③使用批处理，需要在jdbc的url后加上?rewriteBatchedStatements=true<BR>
+	<BR>
+3. 存储图片<BR>
+<BR>
+	①存储图片、音频、视频等多媒体信息是以二进制流的形式，即数据库当中的BLOB<BR>
+	②真正开发中不会吧二进制的文件存放在数据库当中，而是把文件的存储路径保存在数据库当中，以后再取出路径，到该路径下读取信息<BR>
+	③BLOB类型：TINYBLOB----255字节<BR>
+			    BLOB----65535字节<BR>
+			    MEDIUMBLOB----16M<BR>
+			    LONGBLOB----4G
+</DD>
+<DT>6. 数据库连接池与配置文件</DT>
+<!--property:date_created=1549767021-->
+<!--property:date_modified=1549853754-->
+<!--property:finished=1-->
+<DD>
+1. 连接池的使用<BR>
+<BR>
+	①使用javax.sql.DataSource接口来表示连接池<BR>
+	②常见连接池----DBCP：spring推荐，Tomcat的数据源使用的就是DBCP<BR>
+			  ----C3P0：是一个开放源代码的JDBC连接池，在lib目录中与hibernate一起发布<BR>
+			  ----Druid：阿里巴巴提供的连接池-德鲁伊-号称最好的连接池<BR>
+			
+</DD>
+<DT>7. 封装DBUtils工具类</DT>
+<!--property:date_created=1549767030-->
+<!--property:date_modified=1549767030-->
+</DL>
+
+</DD>
+</DL>
+</BODY>
+</HTML>
