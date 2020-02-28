@@ -1,5 +1,5 @@
 <!DOCTYPE NoteCase-File>
-<!--LastNote:12-->
+<!--LastNote:15-->
 <HTML>
 <HEAD>
 <meta content="text/html;charset=UTF-8" http-equiv="Content-Type">
@@ -8,6 +8,71 @@
 </HEAD>
 <BODY>
 <DL>
+<DT>MySQLBasic</DT>
+<!--property:date_created=1582688783-->
+<!--property:date_modified=1582688783-->
+<!--property:expanded-->
+<DD>
+<DL>
+<DT>1. 技术概述</DT>
+<!--property:date_created=1582688811-->
+<!--property:date_modified=1582689702-->
+<DD>
+1. 数据库管理系统的组成<BR>
+<BR>
+	①模式更新、查询、更新<BR>
+	②查询处理器（预编译器、编译器、解释器）<BR>
+	③存储管理器（缓冲区管理器、文件管理器）<BR>
+	④数据、元数据<BR>
+	⑤事务管理器<BR>
+	<BR>
+2. 数据库的体系结构<BR>
+<BR>
+	①外模式：即数据库视图<BR>
+	②模式：对数据库中全部数据的整体逻辑结构和特征的描述<BR>
+	③内模式：对数据库中数据物理结构和存储方式的描述<BR>
+	<BR>
+3. 数据模型<BR>
+<BR>
+	①概念数据模型：即信息模型<BR>
+	②逻辑数据模型：层次模型、网状模型、关系模型、面向对象模型<BR>
+	③数据模型三要素：数据结构、数据操作、数据的约束条件
+</DD>
+<DT>2. 关系数据库</DT>
+<!--property:date_created=1582689722-->
+<!--property:date_modified=1582697368-->
+<DD>
+1. 关系模型的数据结构：关系（表）、元祖（行）、属性（列）、主键、域（属性取值范围）、分量（值）、关系模式（关系名(属性1,属性2,...,属性n)）<BR>
+<BR>
+2. 关系操作<BR>
+<BR>
+	①查询操作：选择、投影、连接、除、并、交、差、笛卡尔积<BR>
+	②更新操作：插入、修改、删除<BR>
+	<BR>
+3. 完整性约束<BR>
+<BR>
+	①----候选键：能唯一标识一个元组的属性组<BR>
+	   ----主属性：某一候选键中的一个属性<BR>
+	   ----主键：多个候选键中选定一个为主键<BR>
+	   ----外键：若F是关系模式R的一个或一组属性，但不是R的键（主键或候选键），且与关系模式S的主键K相对应，则F是R的外键<BR>
+	②域完整性：属性的值应为域中的值<BR>
+	③实体完整性：主键不为空<BR>
+	④参照完整性：外键的值必须是另一个关系模式主键的有效值或空值<BR>
+	<BR>
+4. 数据库规范化理论<BR>
+<BR>
+	①基本要求----分量不可再分、冗余尽可能少、更新时数据一致、无插入异常、无删除异常、便于查询<BR>
+	②关系模式的范式<BR>
+		----1NF：所有属性都不可再分<BR>
+		----2NF：1NF+每个非主属性都完全依赖于主键<BR>
+		----3NF：2NF+每个非主属性都不传递函数依赖于主键（最低可用级别）<BR>
+		----BCNF：2NF+每个属性都不传递函数依赖于主键（3NF+检验主属性）<BR>
+		----4NF：BCNF+只允许出现平凡多值依赖<BR>
+	③关系模式分解原则：无损连接、保持依赖
+</DD>
+</DL>
+
+</DD>
 <DT>MySQLnote</DT>
 <!--property:date_created=1548906407-->
 <!--property:date_modified=1548906407-->
@@ -16,9 +81,8 @@
 <DL>
 <DT>1. 数据定义语言DDL</DT>
 <!--property:date_created=1548906546-->
-<!--property:date_modified=1548908021-->
+<!--property:date_modified=1582702636-->
 <DD>
-<BR>
 1. 对象：数据库和表<BR>
 <BR>
 2. 关键词：create alter drop truncate<BR>
@@ -39,7 +103,7 @@
 	     ----alter table student modify pwd int	//修改字段类型<BR>
 	     ----alter table student drop pwd	//删除字段<BR>
 	<BR>
-    键----alter table 表名 add constraint 外键名 foreign key (外键字段名) references 外表表明 (对应表的字段名)	//为已经添加好的数据表添加外键<BR>
+    键----alter table 表名 add constraint 外键名 foreign key (外键字段名) references 外表表名 (对应表的字段名)	//为已经添加好的数据表添加外键<BR>
        ----alter table 表名 drop foreign key 外键名	//删除外键<BR>
        ----alter table 表名 add primary key (字段名, ...)	//添加主键<BR>
 <BR>
@@ -47,8 +111,7 @@
 <BR>
     查看生成表的sql语句----show create table 表名<BR>
 <BR>
-    查看表结构----desc 表名 <BR>
-		
+    查看表结构----desc 表名
 </DD>
 <DT>2. 数据操作语言DML</DT>
 <!--property:date_created=1548906556-->
@@ -70,7 +133,7 @@
 </DD>
 <DT>3. 数据查询语言DQL</DT>
 <!--property:date_created=1548906563-->
-<!--property:date_modified=1549178190-->
+<!--property:date_modified=1582884724-->
 <DD>
 1. 语法<BR>
 <BR>
@@ -101,11 +164,17 @@
 	<BR>
 7. 聚合函数<BR>
 <BR>
-	count、avg、max、min、sum等
+	count、avg、max、min、sum等<BR>
+	<BR>
+8. in和exists的区别<BR>
+<BR>
+	in：首先查询子查询的表，求内表和外表的笛卡尔积，然后按照条件筛选<BR>
+	exists：遍历外表，看外表中的记录是否与内表一致，匹配则放入结果集中<BR>
+	*exists走索引，in为全表扫描不走索引，除小表in较快时，通常exists更快
 </DD>
 <DT>4. 数据完整性</DT>
 <!--property:date_created=1548906625-->
-<!--property:date_modified=1548998925-->
+<!--property:date_modified=1582702672-->
 <DD>
 1. 数据完整性<BR>
 <BR>
@@ -133,7 +202,8 @@
 3. 域完整性<BR>
 <BR>
 	使用：限制此单元格的数据正，域表示单元格<BR>
-	约束类型：<span style="background-color:#ffff00">数据类型、非空约束(not null)、默认值约束(default)</span><BR>
+	约束类型：<span style="background-color:#ffff00">数据类型、非空约束(not null)、默认值约束(default)、check约束<BR>
+</span>	check约束：限定域，即分量的取值范围<BR>
 <BR>
 4. 参照完整性<BR>
 <BR>
@@ -522,12 +592,12 @@
 </DD>
 <DT>11. 索引</DT>
 <!--property:date_created=1548906713-->
-<!--property:date_modified=1549274327-->
+<!--property:date_modified=1582880837-->
 <DD>
 1. 索引的概念<BR>
 <BR>
 	①索引用于快速找出在某个列中有一特定值的行<BR>
-	②不适用索引，MySQL必须从第一条记录开始读完整个表，知道找出相关的行<BR>
+	②不适用索引，MySQL必须从第一条记录开始读完整个表，直到找出相关的行<BR>
 	③如果表中查询的列有一个索引，MySQL能够快速到达一个位置去搜索数据文件，而不必查看所有数据<BR>
 	<BR>
 2. 索引的优势与劣势<BR>
@@ -561,7 +631,7 @@
 <BR>
 	①主键自动建立唯一索引<BR>
 	②频繁作为查询条件的字段应该创建索引<BR>
-	③查询中与其他表关联的字段，外间关系建立索引<BR>
+	③查询中与其他表关联的字段，外键关系建立索引<BR>
 	④查询中排序的字段<BR>
 	⑤查询中统计或者分组字段<BR>
 		<BR>
